@@ -1,44 +1,45 @@
 import pandas as pd
-import os
 import shutil
+import os
+from openpyxl import load_workbook
 
 class Modelo:
     def __init__(self):
-        self.data = None
-        self.planilla_path = "recursos/planilla_standard.xlsx"
+        self.archivo_subido = None
+        self.archivo_standard = "recursos/planilla_standard.xlsx"
+        self.columnas_a_insertar = [6, 7, 8, 9, 10, 11, 12, 13, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 37, 38, 39, 40, 41, 42, 43, 48, 49, 50, 51, 52, 53, 54, 58, 59, 60, 61, 62, 63, 65]
 
-    def leer_excel(self, file_path):
-        self.data = pd.read_excel(file_path, index_col=0)
-        print(self.data)
-        
-
-    def procesar_datos(self):
-        if self.data is not None and not self.data.empty:
-            try:
-                c1_value = self.data['Consolidados'].iloc[0]  # Acceder a la primera fila, columna 'C'
-                d1_value = self.data['Montos'].iloc[0]  # Acceder a la primera fila, columna 'D'
-                total = c1_value + d1_value
-                print(f"Resultado de la suma: {total}")
-                return total
-            except KeyError as e:
-                print(f"Error: No se pudo encontrar la celda necesaria en el archivo. Detalles: {e}")
-                return 0
-        else:
-            return 0
-
-    def actualizar_planilla(self, total):
+    def cargar_archivo(self, ruta_archivo):
         try:
-            planilla = pd.read_excel(self.planilla_path)
+            self.archivo_subido = pd.read_excel(ruta_archivo, sheet_name="Estado")
+        except Exception as e:
+            print(f"Error al cargar el archivo: {e}")
 
-            # Actualizar solo la celda E4 con el total
-            planilla.at[3, 'E'] = total
+    def buscar_total(self):
+        if self.archivo_subido is not None:
+            columna_total = self.archivo_subido["TOTAL"]
+            return columna_total.iloc[self.columnas_a_insertar]
 
-            planilla.to_excel(self.planilla_path, index=False)
+    def insertar_en_standard(self, total_chilefilms):
+        try:
+            archivo_standard = pd.read_excel(self.archivo_standard, sheet_name="Estado")
 
-            # Guardar una copia en el escritorio
+            # Iterar sobre las filas y columnas específicas
+            for fila, columna in zip(self.columnas_a_insertar, total_chilefilms.index):
+                valor = total_chilefilms[columna]
+                archivo_standard.loc[fila, "Chilefilms"] = valor
+
+            # Guardar cambios en el archivo original
+            archivo_standard.to_excel(self.archivo_standard, index=False, sheet_name="Estado", engine='openpyxl')
+
+            
             escritorio = os.path.join(os.path.expanduser("~"), "Desktop")
-            copia_path = os.path.join(escritorio, "planilla_modificada.xlsx")
-            shutil.copy(self.planilla_path, copia_path)
-            print(f"Planilla actualizada y copiada en el escritorio: {copia_path}")
-        except FileNotFoundError:
-            print(f"Error: No se puede encontrar el archivo '{self.planilla_path}'. Verifica la ruta y la existencia del archivo.")
+            nombre_copia = "planilla_standard_modificada.xlsx"
+            ruta_copia = os.path.join(escritorio, nombre_copia)
+
+            archivo_standard.to_excel(ruta_copia, index=False)
+
+            print(f"Datos insertados correctamente en el archivo standard.")
+            print(f"Copia guardada en el escritorio como {nombre_copia}")
+        except Exception as e:
+            print(f"Error al insertar en el archivo standard: {e}")
