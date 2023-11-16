@@ -24,12 +24,12 @@ class Modelo:
         try:
             archivo_standard = pd.read_excel(self.archivo_standard, sheet_name="Estado")
 
-            # Iterar sobre las filas y columnas específicas
+           
             for fila, columna in zip(self.columnas_a_insertar, total_chilefilms.index):
                 valor = total_chilefilms[columna]
                 archivo_standard.loc[fila, "Chilefilms"] = valor
 
-            # Guardar cambios en el archivo original
+            
             archivo_standard.to_excel(self.archivo_standard, index=False, sheet_name="Estado", engine='openpyxl')
 
             
