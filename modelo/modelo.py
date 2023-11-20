@@ -10,8 +10,10 @@ class Modelo:
         self.columna_standard_index = 2
         self.columnas_a_insertar = [4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 35, 36,
                                     37, 38, 39, 40, 41, 43, 46, 47, 48, 49, 50, 51, 52, 56, 57, 58, 59, 60, 61, 63]
+        self.columnas_a_insertar_tipo3 = [4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 35, 36, 37, 38, 39, 40, 41, 42, 44,47, 48, 49, 50, 51, 52, 53, 57, 58, 59, 60, 61, 62, 64]
         self.filas_a_pegar = [6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 37, 38, 39, 40,
                               41, 42, 43, 45, 48, 49, 50, 51, 52, 53, 54, 58, 59, 60, 61, 62, 63, 65]
+        
 
     def cargar_archivo(self, ruta_archivo):
         try:
@@ -41,10 +43,18 @@ class Modelo:
 
     def buscar_total_tipo3(self):
         if self.archivo_subido is not None:
-            if "Estado" in self.archivo_subido.sheet_names and "TOTAL" in self.archivo_subido.parse("Estado").columns:
-                return self.archivo_subido.parse("Estado")["TOTAL"].iloc[self.columnas_a_insertar]
+            if "Estado" in self.archivo_subido.sheet_names:
+                # Obtener la hoja "Estado"
+                hoja_estado = self.archivo_subido.parse("Estado")
+
+                # Verificar si la columna en la posición del índice 2 existe
+                if len(hoja_estado.columns) > 2:
+                    # Extraer los datos de las filas especificadas en la columna índice 2
+                    return hoja_estado.iloc[self.columnas_a_insertar_tipo3, 2]
+                else:
+                    print("No se encontró la columna en la posición del índice 2 en la hoja 'Estado'.")
             else:
-                print("No se encontró la hoja 'Estado' o la columna 'TOTAL' en el archivo subido.")
+                print("No se encontró la hoja 'Estado' en el archivo subido.")
         else:
             print("No se ha cargado ningún archivo.")
 
