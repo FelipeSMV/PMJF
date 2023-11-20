@@ -1,34 +1,56 @@
-from tkinter import Tk, Label, Button, filedialog
+# vista.py
+import tkinter as tk
+from tkinter import ttk, filedialog
+from PIL import Image, ImageTk
 
 class Vista:
     def __init__(self, controlador):
         self.controlador = controlador
-        self.ventana = Tk()
+        self.ventana = tk.Tk()
         self.ventana.title("Proyecto MJF")
 
-        self.etiqueta = Label(self.ventana, text="Bienvenido al Proyecto")
-        self.etiqueta.pack()
+        self.ventana.geometry("800x600")
 
-        self.boton_subir_tipo1 = Button(self.ventana, text="Chilefilms", command=self.subir_archivo_tipo1)
-        self.boton_subir_tipo1.pack()
+        titulo = ttk.Label(self.ventana, text="Bienvenido al Proyecto MJF", font=("Helvetica", 20))
+        titulo.pack(pady=10)
 
-        self.boton_subir_tipo2 = Button(self.ventana, text="CHF Interacional", command=self.subir_archivo_tipo2)
-        self.boton_subir_tipo2.pack()
+        ruta_imagen = 'recursos/imagen.png'
+        imagen = self.cargar_imagen(ruta_imagen, 400, 200)
+        imagen_label = ttk.Label(self.ventana, image=imagen)
+        imagen_label.image = imagen
+        imagen_label.pack(pady=10)
 
-        self.boton_subir_tipo3 = Button(self.ventana, text="Cine color", command=self.subir_archivo_tipo3)
-        self.boton_subir_tipo3.pack()
+        # Crear botones con el mismo ancho
+        ancho_botones = 20  # Puedes ajustar este valor según tus preferencias
+        ttk.Button(self.ventana, text="Chilefilms", command=self.subir_archivo_tipo1, width=ancho_botones).pack(pady=5)
+        ttk.Button(self.ventana, text="CHF internacional", command=self.subir_archivo_tipo2, width=ancho_botones).pack(pady=5)
+        ttk.Button(self.ventana, text="Cine color", command=self.subir_archivo_tipo3, width=ancho_botones).pack(pady=5)
 
     def iniciar(self):
         self.ventana.mainloop()
 
-    def subir_archivo_tipo1(self):
+    def subir_archivo(self, tipo):
         ruta_archivo = filedialog.askopenfilename(filetypes=[("Archivos Excel", "*.xls;*.xlsx")])
-        self.controlador.procesar_archivo_tipo1(ruta_archivo)
+        if ruta_archivo:
+            if tipo == "tipo1":
+                self.controlador.procesar_archivo_tipo1(ruta_archivo)
+            elif tipo == "tipo2":
+                self.controlador.procesar_archivo_tipo2(ruta_archivo)
+            elif tipo == "tipo3":
+                self.controlador.procesar_archivo_tipo3(ruta_archivo)
+
+    def subir_archivo_tipo1(self):
+        self.subir_archivo(tipo="tipo1")
 
     def subir_archivo_tipo2(self):
-        ruta_archivo = filedialog.askopenfilename(filetypes=[("Archivos Excel", "*.xls;*.xlsx")])
-        self.controlador.procesar_archivo_tipo2(ruta_archivo)
+        self.subir_archivo(tipo="tipo2")
 
     def subir_archivo_tipo3(self):
-        ruta_archivo = filedialog.askopenfilename(filetypes=[("Archivos Excel", "*.xls;*.xlsx")])
-        self.controlador.procesar_archivo_tipo3(ruta_archivo)
+        self.subir_archivo(tipo="tipo3")
+
+    def cargar_imagen(self, ruta, width, height):
+        imagen_pil = Image.open(ruta)
+        imagen_responsive = imagen_pil.resize((width, height), resample=Image.BICUBIC)
+        imagen_tk = ImageTk.PhotoImage(imagen_responsive)
+
+        return imagen_tk
