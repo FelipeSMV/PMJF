@@ -26,8 +26,9 @@ class Controlador:
     
     def procesar_archivo_tipo4(self, ruta_archivo):
         self.modelo.cargar_archivo(ruta_archivo)
-        total_tipo4 = self.modelo.buscar_total_tipo4()
-        self.modelo.insertar_en_planilla_de_prueba(total_tipo4)
+        total_tipo4_rango1, total_tipo4_rango2 = self.modelo.buscar_total_tipo4()
+        self.modelo.insertar_en_planilla_de_prueba(total_tipo4_rango1, total_tipo4_rango2)
+
 
     def generar(self):
         print("Realizando la generación...")

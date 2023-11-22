@@ -63,31 +63,21 @@ class Modelo:
             if "Ctas" in self.archivo_subido.sheet_names:
                 hoja_ctas = self.archivo_subido.parse("Ctas")
 
-                
-                print("Columnas disponibles en la hoja 'Ctas':", hoja_ctas.columns)
+                # Definir el rango 1 hasta la fila 320
+                total_tipo4_rango1 = hoja_ctas.loc[:319, ["SVS ESTADO DE SITUACION FINANCIERA CLASIFICADO", "T/Cambio"]]
 
-                
-                expected_columns = [
-                    'Unnamed: 0',  
-                    'SVS ESTADO DE SITUACION FINANCIERA CLASIFICADO',
-                    'T/Cambio'
-                ]
+                # Definir el rango 2 desde la fila 320 hasta el final
+                total_tipo4_rango2 = hoja_ctas.loc[320:, ["SVS ESTADO DE SITUACION FINANCIERA CLASIFICADO", "T/Cambio"]]
 
-                
-                if all(col in hoja_ctas.columns for col in expected_columns):
-                    
-                    hoja_ctas_filtrada = hoja_ctas.loc[
-                        (hoja_ctas['SVS ESTADO DE SITUACION FINANCIERA CLASIFICADO'].notna()) &
-                        (hoja_ctas.index < 320)
-                    ]
-
-                    return hoja_ctas_filtrada[expected_columns]
-                else:
-                    print("No se encontraron todas las columnas esperadas en la hoja 'Ctas'.")
+                return total_tipo4_rango1, total_tipo4_rango2
             else:
                 print("No se encontró la hoja 'Ctas' en el archivo subido.")
         else:
             print("No se ha cargado ningún archivo.")
+
+
+
+
 
 
 
@@ -192,41 +182,66 @@ class Modelo:
         except Exception as e:
             print(f"Error al insertar en el archivo standard para Tipo 3: {e}")
 
-    def insertar_en_planilla_de_prueba(self, total_tipo4):
+
+    def insertar_en_planilla_de_prueba(self, total_tipo4_rango1, total_tipo4_rango2):
         try:
             archivo_planilla_prueba = load_workbook("recursos/planilladeprueba.xlsx")
 
             if "Cta Cte  (Acumuladas Consol)" in archivo_planilla_prueba.sheetnames:
                 hoja_cta_cte = archivo_planilla_prueba["Cta Cte  (Acumuladas Consol)"]
 
-                if not hoja_cta_cte.sheet_state == "visible":
-                    hoja_cta_cte.sheet_state = "visible"
-
-                
                 columna_cta_cte = [hoja_cta_cte.cell(row=fila, column=1).value for fila in
                                 range(1, hoja_cta_cte.max_row + 1)]
+
                 columna_t_cambio = [hoja_cta_cte.cell(row=fila, column=2).value for fila in
                                     range(1, hoja_cta_cte.max_row + 1)]
 
-                for index, row in total_tipo4.iterrows():
+                # Primer copy-paste en la columna índice 2 (B en Excel)
+                for index, row in total_tipo4_rango1.iterrows():
                     svs_estado = row["SVS ESTADO DE SITUACION FINANCIERA CLASIFICADO"]
                     valor_tipo4 = row["T/Cambio"]
 
-                    
+                    # Buscar la fila correspondiente en la columna Cta Cte
                     if svs_estado in columna_cta_cte:
                         fila_paste = columna_cta_cte.index(svs_estado) + 1
 
-                        
+                        # Verificar si la fila en la columna T/Cambio tiene el mismo índice
                         if len(columna_t_cambio) > fila_paste:
                             print(f"Copiando de fila {index}, columna 'T/Cambio', valor: {valor_tipo4}")
                             hoja_cta_cte.cell(row=fila_paste, column=2, value=valor_tipo4)
                             print(f"Pegando en fila {fila_paste}, columna 2, valor: {valor_tipo4}")
                         else:
                             print(f"No se encontró la fila correspondiente en la columna 'T/Cambio'. "
-                                f"No se realizó el copy-paste para fila {index}.")
-                
+                                f"No se realizó el primer copy-paste para fila {index}.")
+                    else:
+                        print(f"No se encontró la fila correspondiente en la columna 'Cta Cte'. "
+                            f"No se realizó el primer copy-paste para fila {index}.")
+
+                # Segundo copy-paste desde la fila 320 hacia adelante en la columna índice 3 (C en Excel)
+                for index, row in total_tipo4_rango2.iterrows():
+                    svs_estado = row["SVS ESTADO DE SITUACION FINANCIERA CLASIFICADO"]
+                    valor_tipo4 = row["T/Cambio"]
+
+                    # Buscar la fila correspondiente en la columna Cta Cte
+                    if svs_estado in columna_cta_cte:
+                        fila_paste = columna_cta_cte.index(svs_estado) + 1
+
+                        # Verificar si la fila en la columna T/Cambio tiene el mismo índice
+                        if len(columna_t_cambio) > fila_paste:
+                            print(f"Copiando de fila {index}, columna 'T/Cambio', valor: {valor_tipo4}")
+                            hoja_cta_cte.cell(row=fila_paste, column=3, value=valor_tipo4)
+                            print(f"Pegando en fila {fila_paste}, columna 3, valor: {valor_tipo4}")
+                        else:
+                            print(f"No se encontró la fila correspondiente en la columna 'T/Cambio'. "
+                                f"No se realizó el segundo copy-paste para fila {index}.")
+                    else:
+                        print(f"No se encontró la fila correspondiente en la columna 'Cta Cte'. "
+                            f"No se realizó el segundo copy-paste para fila {index}.")
+
                 archivo_planilla_prueba.save("recursos/planilladeprueba.xlsx")
-                print("Datos insertados correctamente en la planilla de prueba.")
+
+                print("Segundo copy-paste realizado correctamente en la planilla de prueba.")
+            else:
+                print("No se encontró la hoja 'Cta Cte (Acumuladas Consol)' en el archivo 'planilladeprueba.xlsx'.")
         except Exception as e:
             print(f"Error al insertar en la planilla de prueba: {e}")
-
