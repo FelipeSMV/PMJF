@@ -224,8 +224,8 @@ class Modelo:
                         else:
                             print(f"No se encontró la fila correspondiente en la columna 'T/Cambio'. "
                                 f"No se realizó el copy-paste para fila {index}.")
-
                 
+                archivo_planilla_prueba.save("recursos/planilladeprueba.xlsx")
                 print("Datos insertados correctamente en la planilla de prueba.")
         except Exception as e:
             print(f"Error al insertar en la planilla de prueba: {e}")
