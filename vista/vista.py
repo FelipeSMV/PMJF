@@ -1,13 +1,13 @@
 import tkinter as tk
 from tkinter import ttk, filedialog
 from PIL import Image, ImageTk
+import tkinter.messagebox as messagebox
 
 class Vista:
-    def __init__(self, controlador):
-        self.controlador = controlador
+    def __init__(self):
+        self.controlador = None
         self.ventana = tk.Tk()
         self.ventana.title("Proyecto MJF")
-
         self.ventana.geometry("800x600")
 
         titulo = ttk.Label(self.ventana, text="Bienvenido al Proyecto MJF", font=("Helvetica", 20))
@@ -19,7 +19,6 @@ class Vista:
         imagen_label.image = imagen
         imagen_label.pack(pady=10)
 
-        
         ancho_botones = 20  
         ttk.Button(self.ventana, text="Chilefilms", command=self.subir_archivo_tipo1, width=ancho_botones).pack(pady=5)
         ttk.Button(self.ventana, text="CHF internacional", command=self.subir_archivo_tipo2, width=ancho_botones).pack(pady=5)
@@ -40,7 +39,6 @@ class Vista:
                 self.controlador.procesar_archivo_tipo3(ruta_archivo)
             elif tipo == "tipo4":
                 self.controlador.procesar_archivo_tipo4(ruta_archivo)
-                
 
     def subir_archivo_tipo1(self):
         self.subir_archivo(tipo="tipo1")
@@ -60,3 +58,9 @@ class Vista:
         imagen_tk = ImageTk.PhotoImage(imagen_responsive)
 
         return imagen_tk
+
+    def establecer_controlador(self, controlador):
+        self.controlador = controlador
+
+    def mostrar_mensaje(self, mensaje):
+        messagebox.showinfo("Información", mensaje)

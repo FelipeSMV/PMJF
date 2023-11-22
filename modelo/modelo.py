@@ -4,7 +4,7 @@ import os
 from openpyxl import load_workbook
 
 class Modelo:
-    def __init__(self):
+    def __init__(self, vista):
         self.archivo_subido = None
         self.archivo_standard = "recursos/planilla_standard.xlsx"
         self.columna_standard_index = 2
@@ -13,6 +13,7 @@ class Modelo:
         self.columnas_a_insertar_tipo3 = [4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 35, 36, 37, 38, 39, 40, 41, 42, 44,47, 48, 49, 50, 51, 52, 53, 57, 58, 59, 60, 61, 62, 64]
         self.filas_a_pegar = [6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 37, 38, 39, 40,
                               41, 42, 43, 45, 48, 49, 50, 51, 52, 53, 54, 58, 59, 60, 61, 62, 63, 65]
+        self.vista = vista
         
 
     def cargar_archivo(self, ruta_archivo):
@@ -191,7 +192,7 @@ class Modelo:
                 hoja_cta_cte = archivo_planilla_prueba["Cta Cte  (Acumuladas Consol)"]
 
                 columna_cta_cte = [hoja_cta_cte.cell(row=fila, column=1).value for fila in
-                                range(1, hoja_cta_cte.max_row + 1)]
+                                    range(1, hoja_cta_cte.max_row + 1)]
 
                 columna_t_cambio = [hoja_cta_cte.cell(row=fila, column=2).value for fila in
                                     range(1, hoja_cta_cte.max_row + 1)]
@@ -207,15 +208,13 @@ class Modelo:
 
                         # Verificar si la fila en la columna T/Cambio tiene el mismo índice
                         if len(columna_t_cambio) > fila_paste:
-                            print(f"Copiando de fila {index}, columna 'T/Cambio', valor: {valor_tipo4}")
                             hoja_cta_cte.cell(row=fila_paste, column=2, value=valor_tipo4)
-                            print(f"Pegando en fila {fila_paste}, columna 2, valor: {valor_tipo4}")
                         else:
                             print(f"No se encontró la fila correspondiente en la columna 'T/Cambio'. "
-                                f"No se realizó el primer copy-paste para fila {index}.")
+                                  f"No se realizó el primer copy-paste para fila {index}.")
                     else:
                         print(f"No se encontró la fila correspondiente en la columna 'Cta Cte'. "
-                            f"No se realizó el primer copy-paste para fila {index}.")
+                              f"No se realizó el primer copy-paste para fila {index}.")
 
                 # Segundo copy-paste desde la fila 320 hacia adelante en la columna índice 3 (C en Excel)
                 for index, row in total_tipo4_rango2.iterrows():
@@ -228,20 +227,26 @@ class Modelo:
 
                         # Verificar si la fila en la columna T/Cambio tiene el mismo índice
                         if len(columna_t_cambio) > fila_paste:
-                            print(f"Copiando de fila {index}, columna 'T/Cambio', valor: {valor_tipo4}")
                             hoja_cta_cte.cell(row=fila_paste, column=3, value=valor_tipo4)
-                            print(f"Pegando en fila {fila_paste}, columna 3, valor: {valor_tipo4}")
                         else:
                             print(f"No se encontró la fila correspondiente en la columna 'T/Cambio'. "
-                                f"No se realizó el segundo copy-paste para fila {index}.")
+                                  f"No se realizó el segundo copy-paste para fila {index}.")
                     else:
                         print(f"No se encontró la fila correspondiente en la columna 'Cta Cte'. "
-                            f"No se realizó el segundo copy-paste para fila {index}.")
+                              f"No se realizó el segundo copy-paste para fila {index}.")
 
                 archivo_planilla_prueba.save("recursos/planilladeprueba.xlsx")
 
-                print("Segundo copy-paste realizado correctamente en la planilla de prueba.")
+                # Copiar la planilla de prueba al escritorio
+                escritorio = os.path.join(os.path.expanduser("~"), "Desktop")
+                nombre_copia = "planilladeprueba_modificada.xlsx"
+                ruta_copia = os.path.join(escritorio, nombre_copia)
+
+                shutil.copy("recursos/planilladeprueba.xlsx", ruta_copia)
+
+                self.vista.mostrar_mensaje("Proceso finalizado correctamente. Copia guardada en el escritorio.")
             else:
                 print("No se encontró la hoja 'Cta Cte (Acumuladas Consol)' en el archivo 'planilladeprueba.xlsx'.")
         except Exception as e:
-            print(f"Error al insertar en la planilla de prueba: {e}")
+            mensaje_error = f"Error al insertar en la planilla de prueba: {e}"
+            self.vista.mostrar_mensaje(mensaje_error)
