@@ -114,8 +114,12 @@ class Modelo:
                 print(f"Copia guardada en el escritorio como {nombre_copia}")
             else:
                 print("No se encontró la hoja 'Estado' en el archivo estándar.")
+                
+           
+            self.vista.mostrar_proceso_finalizado(1)
         except Exception as e:
-            print(f"Error al insertar en el archivo standard para Tipo 1: {e}")
+            mensaje_error = f"Error al insertar en el archivo estándar para Tipo 1: {e}"
+            self.vista.mostrar_error(mensaje_error)
 
     def insertar_en_standard_tipo2(self, total_chilefilms):
         try:
@@ -136,7 +140,7 @@ class Modelo:
 
                 archivo_standard.save(self.archivo_standard)
 
-                print(f"Datos insertados correctamente en el archivo standard para Tipo 2.")
+                print(f"Datos insertados correctamente en el archivo standard para Chilefilms.")
 
                 escritorio = os.path.join(os.path.expanduser("~"), "Desktop")
                 nombre_copia = "planilla_standard_modificada.xlsx"
@@ -147,8 +151,11 @@ class Modelo:
                 print(f"Copia guardada en el escritorio como {nombre_copia}")
             else:
                 print("No se encontró la hoja 'Estado' en el archivo estándar.")
+
+            self.vista.mostrar_proceso_finalizado(2)
         except Exception as e:
-            print(f"Error al insertar en el archivo standard para Tipo 2: {e}")
+            mensaje_error = f"Error al insertar en el archivo estándar para CHF Internacional: {e}"
+            self.vista.mostrar_error(mensaje_error)
 
     def insertar_en_standard_tipo3(self, total_chilefilms):
         try:
@@ -180,8 +187,11 @@ class Modelo:
                 print(f"Copia guardada en el escritorio como {nombre_copia}")
             else:
                 print("No se encontró la hoja 'Estado' en el archivo estándar.")
+
+            self.vista.mostrar_proceso_finalizado(3)
         except Exception as e:
-            print(f"Error al insertar en el archivo standard para Tipo 3: {e}")
+            mensaje_error = f"Error al insertar en el archivo estándar para Cinecolor: {e}"
+            self.vista.mostrar_error(mensaje_error)
 
 
     def insertar_en_planilla_de_prueba(self, total_tipo4_rango1, total_tipo4_rango2):
@@ -197,16 +207,16 @@ class Modelo:
                 columna_t_cambio = [hoja_cta_cte.cell(row=fila, column=2).value for fila in
                                     range(1, hoja_cta_cte.max_row + 1)]
 
-                # Primer copy-paste en la columna índice 2 (B en Excel)
+                
                 for index, row in total_tipo4_rango1.iterrows():
                     svs_estado = row["SVS ESTADO DE SITUACION FINANCIERA CLASIFICADO"]
                     valor_tipo4 = row["T/Cambio"]
 
-                    # Buscar la fila correspondiente en la columna Cta Cte
+                    
                     if svs_estado in columna_cta_cte:
                         fila_paste = columna_cta_cte.index(svs_estado) + 1
 
-                        # Verificar si la fila en la columna T/Cambio tiene el mismo índice
+                        
                         if len(columna_t_cambio) > fila_paste:
                             hoja_cta_cte.cell(row=fila_paste, column=2, value=valor_tipo4)
                         else:
@@ -216,16 +226,16 @@ class Modelo:
                         print(f"No se encontró la fila correspondiente en la columna 'Cta Cte'. "
                               f"No se realizó el primer copy-paste para fila {index}.")
 
-                # Segundo copy-paste desde la fila 320 hacia adelante en la columna índice 3 (C en Excel)
+                
                 for index, row in total_tipo4_rango2.iterrows():
                     svs_estado = row["SVS ESTADO DE SITUACION FINANCIERA CLASIFICADO"]
                     valor_tipo4 = row["T/Cambio"]
 
-                    # Buscar la fila correspondiente en la columna Cta Cte
+                    
                     if svs_estado in columna_cta_cte:
                         fila_paste = columna_cta_cte.index(svs_estado) + 1
 
-                        # Verificar si la fila en la columna T/Cambio tiene el mismo índice
+                        
                         if len(columna_t_cambio) > fila_paste:
                             hoja_cta_cte.cell(row=fila_paste, column=3, value=valor_tipo4)
                         else:

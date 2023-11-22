@@ -64,3 +64,9 @@ class Vista:
 
     def mostrar_mensaje(self, mensaje):
         messagebox.showinfo("Información", mensaje)
+    
+    def mostrar_proceso_finalizado(self, tipo):
+        messagebox.showinfo("Información", f"Proceso para Tipo {tipo} finalizado correctamente.")
+    
+    def mostrar_error(self, mensaje):
+        messagebox.showerror("Error", mensaje)
