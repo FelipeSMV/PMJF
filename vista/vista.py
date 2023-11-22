@@ -1,4 +1,3 @@
-# vista.py
 import tkinter as tk
 from tkinter import ttk, filedialog
 from PIL import Image, ImageTk
@@ -20,11 +19,12 @@ class Vista:
         imagen_label.image = imagen
         imagen_label.pack(pady=10)
 
-        # Crear botones con el mismo ancho
-        ancho_botones = 20  # Puedes ajustar este valor según tus preferencias
+        
+        ancho_botones = 20  
         ttk.Button(self.ventana, text="Chilefilms", command=self.subir_archivo_tipo1, width=ancho_botones).pack(pady=5)
         ttk.Button(self.ventana, text="CHF internacional", command=self.subir_archivo_tipo2, width=ancho_botones).pack(pady=5)
         ttk.Button(self.ventana, text="Cine color", command=self.subir_archivo_tipo3, width=ancho_botones).pack(pady=5)
+        ttk.Button(self.ventana, text="Matriz Chilefilms", command=self.subir_archivo_tipo4, width=ancho_botones).pack(pady=5)
 
     def iniciar(self):
         self.ventana.mainloop()
@@ -38,6 +38,9 @@ class Vista:
                 self.controlador.procesar_archivo_tipo2(ruta_archivo)
             elif tipo == "tipo3":
                 self.controlador.procesar_archivo_tipo3(ruta_archivo)
+            elif tipo == "tipo4":
+                self.controlador.procesar_archivo_tipo4(ruta_archivo)
+                
 
     def subir_archivo_tipo1(self):
         self.subir_archivo(tipo="tipo1")
@@ -47,6 +50,9 @@ class Vista:
 
     def subir_archivo_tipo3(self):
         self.subir_archivo(tipo="tipo3")
+
+    def subir_archivo_tipo4(self):
+        self.subir_archivo(tipo="tipo4")
 
     def cargar_imagen(self, ruta, width, height):
         imagen_pil = Image.open(ruta)

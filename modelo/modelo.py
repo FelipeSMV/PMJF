@@ -17,7 +17,7 @@ class Modelo:
 
     def cargar_archivo(self, ruta_archivo):
         try:
-            # Leer el archivo Excel y almacenar el objeto ExcelFile
+            
             self.archivo_subido = pd.ExcelFile(ruta_archivo)
         except Exception as e:
             print(f"Error al cargar el archivo: {e}")
@@ -44,12 +44,12 @@ class Modelo:
     def buscar_total_tipo3(self):
         if self.archivo_subido is not None:
             if "Estado" in self.archivo_subido.sheet_names:
-                # Obtener la hoja "Estado"
+                
                 hoja_estado = self.archivo_subido.parse("Estado")
 
-                # Verificar si la columna en la posición del índice 2 existe
+                
                 if len(hoja_estado.columns) > 2:
-                    # Extraer los datos de las filas especificadas en la columna índice 2
+                    
                     return hoja_estado.iloc[self.columnas_a_insertar_tipo3, 2]
                 else:
                     print("No se encontró la columna en la posición del índice 2 en la hoja 'Estado'.")
@@ -57,6 +57,41 @@ class Modelo:
                 print("No se encontró la hoja 'Estado' en el archivo subido.")
         else:
             print("No se ha cargado ningún archivo.")
+
+    def buscar_total_tipo4(self):
+        if self.archivo_subido is not None:
+            if "Ctas" in self.archivo_subido.sheet_names:
+                hoja_ctas = self.archivo_subido.parse("Ctas")
+
+                
+                print("Columnas disponibles en la hoja 'Ctas':", hoja_ctas.columns)
+
+                
+                expected_columns = [
+                    'Unnamed: 0',  
+                    'SVS ESTADO DE SITUACION FINANCIERA CLASIFICADO',
+                    'T/Cambio'
+                ]
+
+                
+                if all(col in hoja_ctas.columns for col in expected_columns):
+                    
+                    hoja_ctas_filtrada = hoja_ctas.loc[
+                        (hoja_ctas['SVS ESTADO DE SITUACION FINANCIERA CLASIFICADO'].notna()) &
+                        (hoja_ctas.index < 320)
+                    ]
+
+                    return hoja_ctas_filtrada[expected_columns]
+                else:
+                    print("No se encontraron todas las columnas esperadas en la hoja 'Ctas'.")
+            else:
+                print("No se encontró la hoja 'Ctas' en el archivo subido.")
+        else:
+            print("No se ha cargado ningún archivo.")
+
+
+
+
 
     def insertar_en_standard_tipo1(self, total_chilefilms):
         try:
@@ -156,3 +191,42 @@ class Modelo:
                 print("No se encontró la hoja 'Estado' en el archivo estándar.")
         except Exception as e:
             print(f"Error al insertar en el archivo standard para Tipo 3: {e}")
+
+    def insertar_en_planilla_de_prueba(self, total_tipo4):
+        try:
+            archivo_planilla_prueba = load_workbook("recursos/planilladeprueba.xlsx")
+
+            if "Cta Cte  (Acumuladas Consol)" in archivo_planilla_prueba.sheetnames:
+                hoja_cta_cte = archivo_planilla_prueba["Cta Cte  (Acumuladas Consol)"]
+
+                if not hoja_cta_cte.sheet_state == "visible":
+                    hoja_cta_cte.sheet_state = "visible"
+
+                
+                columna_cta_cte = [hoja_cta_cte.cell(row=fila, column=1).value for fila in
+                                range(1, hoja_cta_cte.max_row + 1)]
+                columna_t_cambio = [hoja_cta_cte.cell(row=fila, column=2).value for fila in
+                                    range(1, hoja_cta_cte.max_row + 1)]
+
+                for index, row in total_tipo4.iterrows():
+                    svs_estado = row["SVS ESTADO DE SITUACION FINANCIERA CLASIFICADO"]
+                    valor_tipo4 = row["T/Cambio"]
+
+                    
+                    if svs_estado in columna_cta_cte:
+                        fila_paste = columna_cta_cte.index(svs_estado) + 1
+
+                        
+                        if len(columna_t_cambio) > fila_paste:
+                            print(f"Copiando de fila {index}, columna 'T/Cambio', valor: {valor_tipo4}")
+                            hoja_cta_cte.cell(row=fila_paste, column=2, value=valor_tipo4)
+                            print(f"Pegando en fila {fila_paste}, columna 2, valor: {valor_tipo4}")
+                        else:
+                            print(f"No se encontró la fila correspondiente en la columna 'T/Cambio'. "
+                                f"No se realizó el copy-paste para fila {index}.")
+
+                
+                print("Datos insertados correctamente en la planilla de prueba.")
+        except Exception as e:
+            print(f"Error al insertar en la planilla de prueba: {e}")
+
