@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk, filedialog
 from tkinter import*
 from PIL import Image, ImageTk
+<<<<<<< HEAD
 from customtkinter import CTkFrame, CTkEntry, CTkLabel, CTkButton, CTkCheckBox
 
 
@@ -13,6 +14,15 @@ class Vista:
         self.ventana.title("Proyecto MJF")
         
 
+=======
+import tkinter.messagebox as messagebox
+
+class Vista:
+    def __init__(self):
+        self.controlador = None
+        self.ventana = tk.Tk()
+        self.ventana.title("Proyecto MJF")
+>>>>>>> 9d033156159cb1293c14c3746ec6165c4772bae1
         self.ventana.geometry("800x600")
         
         c_fondo = "#F6EEEE"
@@ -32,6 +42,7 @@ class Vista:
         imagen_label.image = imagen
         imagen_label.pack(pady=10)
 
+<<<<<<< HEAD
         
         ancho_botones = 25 
         alto = 2
@@ -42,6 +53,14 @@ class Vista:
         tk.Button(self.ventana, text="Matriz Chilefilms", command=self.subir_archivo_tipo4, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
         
         
+=======
+        ancho_botones = 20  
+        ttk.Button(self.ventana, text="Chilefilms", command=self.subir_archivo_tipo1, width=ancho_botones).pack(pady=5)
+        ttk.Button(self.ventana, text="CHF internacional", command=self.subir_archivo_tipo2, width=ancho_botones).pack(pady=5)
+        ttk.Button(self.ventana, text="Cine color", command=self.subir_archivo_tipo3, width=ancho_botones).pack(pady=5)
+        ttk.Button(self.ventana, text="Matriz Chilefilms", command=self.subir_archivo_tipo4, width=ancho_botones).pack(pady=5)
+        ttk.Button(self.ventana, text="Nuevo Tipo", command=self.subir_archivo_tipo5, width=ancho_botones).pack(pady=5)
+>>>>>>> 9d033156159cb1293c14c3746ec6165c4772bae1
 
     def iniciar(self):
         self.ventana.mainloop()
@@ -57,7 +76,8 @@ class Vista:
                 self.controlador.procesar_archivo_tipo3(ruta_archivo)
             elif tipo == "tipo4":
                 self.controlador.procesar_archivo_tipo4(ruta_archivo)
-                
+            elif tipo == "tipo5":
+                self.controlador.procesar_archivo_tipo5(ruta_archivo)
 
     def subir_archivo_tipo1(self):
         self.subir_archivo(tipo="tipo1")
@@ -70,6 +90,9 @@ class Vista:
 
     def subir_archivo_tipo4(self):
         self.subir_archivo(tipo="tipo4")
+    
+    def subir_archivo_tipo5(self):
+        self.subir_archivo(tipo="tipo5")
 
     def cargar_imagen(self, ruta, width, height):
         imagen_pil = Image.open(ruta)
@@ -77,9 +100,24 @@ class Vista:
         imagen_tk = ImageTk.PhotoImage(imagen_responsive)
         
         return imagen_tk
+<<<<<<< HEAD
  
     
  
   
     
 
+=======
+
+    def establecer_controlador(self, controlador):
+        self.controlador = controlador
+
+    def mostrar_mensaje(self, mensaje):
+        messagebox.showinfo("Información", mensaje)
+    
+    def mostrar_proceso_finalizado(self, tipo):
+        messagebox.showinfo("Información", f"Proceso para Tipo {tipo} finalizado correctamente.")
+    
+    def mostrar_error(self, mensaje):
+        messagebox.showerror("Error", mensaje)
+>>>>>>> 9d033156159cb1293c14c3746ec6165c4772bae1
