@@ -1,6 +1,7 @@
 from modelo import Modelo
 from vista import Vista
 import tkinter.messagebox as messagebox
+import pandas as pd
 
 class Controlador:
     def __init__(self, vista):
@@ -31,6 +32,13 @@ class Controlador:
         self.modelo.cargar_archivo(ruta_archivo)
         total_tipo4_rango1, total_tipo4_rango2 = self.modelo.buscar_total_tipo4()
         self.modelo.insertar_en_planilla_de_prueba(total_tipo4_rango1, total_tipo4_rango2)
+    
+    def procesar_archivo_tipo5(self, ruta_archivo):
+        self.modelo.cargar_archivo(ruta_archivo)
+        total_tipo5_rango1, total_tipo5_rango2 = self.modelo.buscar_total_tipo5()
+        self.modelo.insertar_en_planilla_de_prueba_tipo5(total_tipo5_rango1, total_tipo5_rango2)
+    
+
 
 
 
