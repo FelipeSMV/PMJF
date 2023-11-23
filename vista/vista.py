@@ -1,30 +1,47 @@
 import tkinter as tk
 from tkinter import ttk, filedialog
+from tkinter import*
 from PIL import Image, ImageTk
+from customtkinter import CTkFrame, CTkEntry, CTkLabel, CTkButton, CTkCheckBox
+
 
 class Vista:
+    
     def __init__(self, controlador):
         self.controlador = controlador
         self.ventana = tk.Tk()
         self.ventana.title("Proyecto MJF")
+        
 
         self.ventana.geometry("800x600")
+        
+        c_fondo = "#F6EEEE"
+        self.ventana.config(bg = c_fondo)
+        
+        logo = PhotoImage(file = "recursos/ciisaL.png")
+        
+        self.ventana.call("wm", "iconphoto", self.ventana._w, logo)
+
 
         titulo = ttk.Label(self.ventana, text="Bienvenido al Proyecto MJF", font=("Helvetica", 20))
         titulo.pack(pady=10)
 
-        ruta_imagen = 'recursos/imagen.png'
+        ruta_imagen = 'recursos/contabilidad.png'
         imagen = self.cargar_imagen(ruta_imagen, 400, 200)
         imagen_label = ttk.Label(self.ventana, image=imagen)
         imagen_label.image = imagen
         imagen_label.pack(pady=10)
 
         
-        ancho_botones = 20  
-        ttk.Button(self.ventana, text="Chilefilms", command=self.subir_archivo_tipo1, width=ancho_botones).pack(pady=5)
-        ttk.Button(self.ventana, text="CHF internacional", command=self.subir_archivo_tipo2, width=ancho_botones).pack(pady=5)
-        ttk.Button(self.ventana, text="Cine color", command=self.subir_archivo_tipo3, width=ancho_botones).pack(pady=5)
-        ttk.Button(self.ventana, text="Matriz Chilefilms", command=self.subir_archivo_tipo4, width=ancho_botones).pack(pady=5)
+        ancho_botones = 25 
+        alto = 2
+    
+        tk.Button(self.ventana, text="Chilefilms", command=self.subir_archivo_tipo1, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
+        tk.Button(self.ventana, text="CHF internacional", command=self.subir_archivo_tipo2, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
+        tk.Button(self.ventana, text="Cine color", command=self.subir_archivo_tipo3, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
+        tk.Button(self.ventana, text="Matriz Chilefilms", command=self.subir_archivo_tipo4, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
+        
+        
 
     def iniciar(self):
         self.ventana.mainloop()
@@ -58,5 +75,11 @@ class Vista:
         imagen_pil = Image.open(ruta)
         imagen_responsive = imagen_pil.resize((width, height), resample=Image.BICUBIC)
         imagen_tk = ImageTk.PhotoImage(imagen_responsive)
-
+        
         return imagen_tk
+ 
+    
+ 
+  
+    
+
