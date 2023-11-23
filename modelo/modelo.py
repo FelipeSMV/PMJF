@@ -362,7 +362,3 @@ class Modelo:
         except Exception as e:
             mensaje_error = f"Error al insertar en la planilla de prueba: {e}"
             self.vista.mostrar_mensaje(mensaje_error)
-
-
-
-
