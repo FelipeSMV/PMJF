@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk, filedialog
 from tkinter import*
 from PIL import Image, ImageTk
-from customtkinter import CTkFrame, CTkEntry, CTkLabel, CTkButton, CTkCheckBox
+
 
 
 class Vista:
