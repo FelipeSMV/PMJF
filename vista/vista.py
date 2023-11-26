@@ -2,11 +2,7 @@ import tkinter as tk
 from tkinter import ttk, filedialog
 from tkinter import*
 from PIL import Image, ImageTk
-<<<<<<< HEAD
-import tkinter.messagebox as messagebox
-=======
->>>>>>> 27a08e4b00349d73c9366d0ecbbd2703db80d592
-from customtkinter import CTkFrame, CTkEntry, CTkLabel, CTkButton, CTkCheckBox
+
 
 
 class Vista:
@@ -17,21 +13,14 @@ class Vista:
         self.ventana.title("Proyecto MJF")
         
 
-<<<<<<< HEAD
-=======
 
 import tkinter.messagebox as messagebox
->>>>>>> 27a08e4b00349d73c9366d0ecbbd2703db80d592
 
 class Vista:
     def __init__(self):
         self.controlador = None
         self.ventana = tk.Tk()
         self.ventana.title("Proyecto MJF")
-<<<<<<< HEAD
-
-=======
->>>>>>> 27a08e4b00349d73c9366d0ecbbd2703db80d592
         self.ventana.geometry("800x600")
         
         c_fondo = "#F6EEEE"
@@ -51,33 +40,18 @@ class Vista:
         imagen_label.image = imagen
         imagen_label.pack(pady=10)
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 27a08e4b00349d73c9366d0ecbbd2703db80d592
         
         ancho_botones = 25 
         alto = 2
     
         tk.Button(self.ventana, text="Chilefilms", command=self.subir_archivo_tipo1, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
-        tk.Button(self.ventana, text="CHF internacional", command=self.subir_archivo_tipo2, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
-        tk.Button(self.ventana, text="Cine color", command=self.subir_archivo_tipo3, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
-        tk.Button(self.ventana, text="Matriz Chilefilms", command=self.subir_archivo_tipo4, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
+        tk.Button(self.ventana, text="CCE", command=self.subir_archivo_tipo2, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
+        tk.Button(self.ventana, text="Conate II Consolidado", command=self.subir_archivo_tipo3, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
+        tk.Button(self.ventana, text="CineColor Films", command=self.subir_archivo_tipo4, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
+        tk.Button(self.ventana, text="Sonus Consolidado", command=self.subir_archivo_tipo5, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
+        tk.Button(self.ventana, text="Servicios Integra", command=self.subir_archivo_tipo6, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
         
-<<<<<<< HEAD
-        
-
-        ancho_botones = 20  
-        ttk.Button(self.ventana, text="Chilefilms", command=self.subir_archivo_tipo1, width=ancho_botones).pack(pady=5)
-        ttk.Button(self.ventana, text="CHF internacional", command=self.subir_archivo_tipo2, width=ancho_botones).pack(pady=5)
-        ttk.Button(self.ventana, text="Cine color", command=self.subir_archivo_tipo3, width=ancho_botones).pack(pady=5)
-        ttk.Button(self.ventana, text="Matriz Chilefilms", command=self.subir_archivo_tipo4, width=ancho_botones).pack(pady=5)
-        ttk.Button(self.ventana, text="Nuevo Tipo", command=self.subir_archivo_tipo5, width=ancho_botones).pack(pady=5)
-
-
-=======
     
->>>>>>> 27a08e4b00349d73c9366d0ecbbd2703db80d592
     def iniciar(self):
         self.ventana.mainloop()
 
@@ -94,6 +68,8 @@ class Vista:
                 self.controlador.procesar_archivo_tipo4(ruta_archivo)
             elif tipo == "tipo5":
                 self.controlador.procesar_archivo_tipo5(ruta_archivo)
+            elif tipo == "tipo6":
+                self.controlador.procesar_archivo_tipo6(ruta_archivo)
 
     def subir_archivo_tipo1(self):
         self.subir_archivo(tipo="tipo1")
@@ -109,6 +85,9 @@ class Vista:
     
     def subir_archivo_tipo5(self):
         self.subir_archivo(tipo="tipo5")
+    
+    def subir_archivo_tipo6(self):
+        self.subir_archivo(tipo="tipo6")
 
     def cargar_imagen(self, ruta, width, height):
         imagen_pil = Image.open(ruta)
@@ -116,10 +95,7 @@ class Vista:
         imagen_tk = ImageTk.PhotoImage(imagen_responsive)
         
         return imagen_tk
-<<<<<<< HEAD
-=======
 
->>>>>>> 27a08e4b00349d73c9366d0ecbbd2703db80d592
 
     def establecer_controlador(self, controlador):
         self.controlador = controlador
@@ -132,7 +108,3 @@ class Vista:
     
     def mostrar_error(self, mensaje):
         messagebox.showerror("Error", mensaje)
-<<<<<<< HEAD
-=======
-
->>>>>>> 27a08e4b00349d73c9366d0ecbbd2703db80d592
