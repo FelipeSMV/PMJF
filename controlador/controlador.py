@@ -42,4 +42,13 @@ class Controlador:
         self.modelo.cargar_archivo(ruta_archivo)
         total_chilefilms = self.modelo.buscar_total_tipo2()
         self.modelo.insertar_en_standard_tipo6(total_chilefilms)
-    
+
+    def procesar_archivo_tipo7(self, ruta_archivo):
+        self.modelo.cargar_archivo(ruta_archivo)
+        total_chilefilms = self.modelo.buscar_total_tipo2()
+        self.modelo.insertar_en_standard_tipo7(total_chilefilms)
+
+    def procesar_archivo_tipo8(self, ruta_archivo):
+        self.modelo.cargar_archivo(ruta_archivo)
+        total_chilefilms = self.modelo.buscar_total_tipo4()
+        self.modelo.insertar_en_standard_tipo8(total_chilefilms)

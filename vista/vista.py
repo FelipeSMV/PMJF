@@ -45,11 +45,13 @@ class Vista:
         alto = 2
     
         tk.Button(self.ventana, text="Chilefilms", command=self.subir_archivo_tipo1, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
-        tk.Button(self.ventana, text="CCE", command=self.subir_archivo_tipo2, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
+        tk.Button(self.ventana, text="CCE Individual", command=self.subir_archivo_tipo2, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
         tk.Button(self.ventana, text="Conate II Consolidado", command=self.subir_archivo_tipo3, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
         tk.Button(self.ventana, text="CineColor Films", command=self.subir_archivo_tipo4, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
         tk.Button(self.ventana, text="Sonus Consolidado", command=self.subir_archivo_tipo5, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
-        tk.Button(self.ventana, text="Servicios Integra", command=self.subir_archivo_tipo6, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
+        tk.Button(self.ventana, text="Servicios Integra Individual", command=self.subir_archivo_tipo6, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
+        tk.Button(self.ventana, text="Serviart Individual", command=self.subir_archivo_tipo7, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
+        tk.Button(self.ventana, text="CHF Inversiones Consolidado", command=self.subir_archivo_tipo8, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
         
     
     def iniciar(self):
@@ -70,6 +72,10 @@ class Vista:
                 self.controlador.procesar_archivo_tipo5(ruta_archivo)
             elif tipo == "tipo6":
                 self.controlador.procesar_archivo_tipo6(ruta_archivo)
+            elif tipo == "tipo7":
+                self.controlador.procesar_archivo_tipo7(ruta_archivo)
+            elif tipo == "tipo8":
+                self.controlador.procesar_archivo_tipo8(ruta_archivo)
 
     def subir_archivo_tipo1(self):
         self.subir_archivo(tipo="tipo1")
@@ -88,6 +94,12 @@ class Vista:
     
     def subir_archivo_tipo6(self):
         self.subir_archivo(tipo="tipo6")
+    
+    def subir_archivo_tipo7(self):
+        self.subir_archivo(tipo="tipo7")
+
+    def subir_archivo_tipo8(self):
+        self.subir_archivo(tipo="tipo8")
 
     def cargar_imagen(self, ruta, width, height):
         imagen_pil = Image.open(ruta)
