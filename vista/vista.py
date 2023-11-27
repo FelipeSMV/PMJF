@@ -1,20 +1,9 @@
 import tkinter as tk
 from tkinter import ttk, filedialog
 from tkinter import*
-from PIL import Image, ImageTk
-
-
-
-class Vista:
-    
-    def __init__(self, controlador):
-        self.controlador = controlador
-        self.ventana = tk.Tk()
-        self.ventana.title("Proyecto MJF")
-        
-
-
+from PIL import Image, ImageTk      
 import tkinter.messagebox as messagebox
+
 
 class Vista:
     def __init__(self):
@@ -27,35 +16,54 @@ class Vista:
         self.ventana.config(bg = c_fondo)
         
         logo = PhotoImage(file = "recursos/ciisaL.png")
-        
+
+        self.notebook = ttk.Notebook(self.ventana)
+        self.notebook.pack(expand=True, fill="both")
+
+        # Pestaña Primer Paso
+        self.pestaña_primer_paso = ttk.Frame(self.notebook)
+        self.notebook.add(self.pestaña_primer_paso, text="Primer Paso")
+        self.configurar_pestaña_primer_paso()
+
+        # Pestaña Segundo Paso
+        self.pestaña_segundo_paso = ttk.Frame(self.notebook)
+        self.notebook.add(self.pestaña_segundo_paso, text="Segundo Paso")
+        self.configurar_pestaña_segundo_paso()
+
         self.ventana.call("wm", "iconphoto", self.ventana._w, logo)
+    
+    def iniciar(self):
+        self.ventana.mainloop()
 
-
-        titulo = ttk.Label(self.ventana, text="Bienvenido al Proyecto MJF", font=("Helvetica", 20))
+    def configurar_pestaña_primer_paso(self):
+        titulo = ttk.Label(self.pestaña_primer_paso, text="Bienvenido al Proyecto MJF", font=("Helvetica", 20))
         titulo.pack(pady=10)
 
         ruta_imagen = 'recursos/contabilidad.png'
         imagen = self.cargar_imagen(ruta_imagen, 400, 200)
-        imagen_label = ttk.Label(self.ventana, image=imagen)
+        imagen_label = ttk.Label(self.pestaña_primer_paso, image=imagen)
         imagen_label.image = imagen
-        imagen_label.pack(pady=10)
-
-        
+        imagen_label.pack(pady=10)          
         ancho_botones = 25 
-        alto = 2
-    
-        tk.Button(self.ventana, text="Chilefilms", command=self.subir_archivo_tipo1, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
-        tk.Button(self.ventana, text="CCE Individual", command=self.subir_archivo_tipo2, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
-        tk.Button(self.ventana, text="Conate II Consolidado", command=self.subir_archivo_tipo3, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
-        tk.Button(self.ventana, text="CineColor Films", command=self.subir_archivo_tipo4, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
-        tk.Button(self.ventana, text="Sonus Consolidado", command=self.subir_archivo_tipo5, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
-        tk.Button(self.ventana, text="Servicios Integra Individual", command=self.subir_archivo_tipo6, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
-        tk.Button(self.ventana, text="Serviart Individual", command=self.subir_archivo_tipo7, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
-        tk.Button(self.ventana, text="CHF Inversiones Consolidado", command=self.subir_archivo_tipo8, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
-        
-    
-    def iniciar(self):
-        self.ventana.mainloop()
+        alto = 2       
+        tk.Button(self.pestaña_primer_paso, text="Chilefilms", command=self.subir_archivo_tipo1, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
+        tk.Button(self.pestaña_primer_paso, text="CCE Individual", command=self.subir_archivo_tipo2, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
+        tk.Button(self.pestaña_primer_paso, text="Conate II Consolidado", command=self.subir_archivo_tipo3, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
+        tk.Button(self.pestaña_primer_paso, text="CineColor Films", command=self.subir_archivo_tipo4, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
+        tk.Button(self.pestaña_primer_paso, text="Sonus Consolidado", command=self.subir_archivo_tipo5, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
+        tk.Button(self.pestaña_primer_paso, text="Servicios Integra Individual", command=self.subir_archivo_tipo6, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
+        tk.Button(self.pestaña_primer_paso, text="Serviart Individual", command=self.subir_archivo_tipo7, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
+        tk.Button(self.pestaña_primer_paso, text="CHF Inversiones Consolidado", command=self.subir_archivo_tipo8, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
+
+    def configurar_pestaña_segundo_paso(self):
+        # En esta pestaña irán los consolidados "Pequeños"
+        pass
+   
+    def cargar_imagen(self, ruta, width, height):
+        imagen_pil = Image.open(ruta)
+        imagen_responsive = imagen_pil.resize((width, height), resample=Image.BICUBIC)
+        imagen_tk = ImageTk.PhotoImage(imagen_responsive)      
+        return imagen_tk
 
     def subir_archivo(self, tipo):
         ruta_archivo = filedialog.askopenfilename(filetypes=[("Archivos Excel", "*.xls;*.xlsx")])
@@ -101,14 +109,6 @@ class Vista:
     def subir_archivo_tipo8(self):
         self.subir_archivo(tipo="tipo8")
 
-    def cargar_imagen(self, ruta, width, height):
-        imagen_pil = Image.open(ruta)
-        imagen_responsive = imagen_pil.resize((width, height), resample=Image.BICUBIC)
-        imagen_tk = ImageTk.PhotoImage(imagen_responsive)
-        
-        return imagen_tk
-
-
     def establecer_controlador(self, controlador):
         self.controlador = controlador
 
@@ -120,3 +120,4 @@ class Vista:
     
     def mostrar_error(self, mensaje):
         messagebox.showerror("Error", mensaje)
+
