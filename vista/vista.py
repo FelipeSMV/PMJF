@@ -3,7 +3,7 @@ from tkinter import ttk, filedialog
 from tkinter import*
 from PIL import Image, ImageTk      
 import tkinter.messagebox as messagebox
-
+from customtkinter import CTk, CTkButton, CTkFrame
 
 class Vista:
     def __init__(self):
@@ -44,16 +44,48 @@ class Vista:
         imagen_label = ttk.Label(self.pestaña_primer_paso, image=imagen)
         imagen_label.image = imagen
         imagen_label.pack(pady=10)          
-        ancho_botones = 25 
-        alto = 2       
-        tk.Button(self.pestaña_primer_paso, text="Chilefilms", command=self.subir_archivo_tipo1, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
-        tk.Button(self.pestaña_primer_paso, text="CCE Individual", command=self.subir_archivo_tipo2, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
-        tk.Button(self.pestaña_primer_paso, text="Conate II Consolidado", command=self.subir_archivo_tipo3, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
-        tk.Button(self.pestaña_primer_paso, text="CineColor Films", command=self.subir_archivo_tipo4, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
-        tk.Button(self.pestaña_primer_paso, text="Sonus Consolidado", command=self.subir_archivo_tipo5, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
-        tk.Button(self.pestaña_primer_paso, text="Servicios Integra Individual", command=self.subir_archivo_tipo6, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
-        tk.Button(self.pestaña_primer_paso, text="Serviart Individual", command=self.subir_archivo_tipo7, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
-        tk.Button(self.pestaña_primer_paso, text="CHF Inversiones Consolidado", command=self.subir_archivo_tipo8, width=ancho_botones, height=alto, bg="#008F39", fg="#FFF").pack(pady=5)
+       
+      
+      
+        #Este es el frame para poder modificar los botones
+        
+        self.pestaña_primer_paso = tk.Frame(self.ventana)
+        self.pestaña_primer_paso.pack(pady=10)
+
+        # Crear y organizar los botones en columnas y filas
+        self.crear_botones()
+
+    def crear_botones(self):
+        # Configurar el ancho y alto de los botones
+       
+        c_verde = "#008F39"
+
+        # Poder crear y organizar los botones en el contenedor
+        self.boton1 = CTkButton(self.pestaña_primer_paso, text="Chilefilms", command=self.subir_archivo_tipo1, fg_color=c_verde, corner_radius=12, border_width = 2, height=50, width=180)
+        self.boton1.grid(row=0, column=0, padx=10, pady=10)
+
+        self.boton2 = CTkButton(self.pestaña_primer_paso, text="CCE Individual", command=self.subir_archivo_tipo2, fg_color=c_verde, corner_radius=12, border_width = 2, height=50, width=180)
+        self.boton2.grid(row=0, column=1, padx=5, pady=5)
+
+        self.boton3 = CTkButton(self.pestaña_primer_paso, text="Conate II Consolidado", command=self.subir_archivo_tipo3, fg_color=c_verde, corner_radius=12, border_width = 2, height=50, width=180)
+        self.boton3.grid(row=1, column=0, padx=5, pady=5)
+
+        self.boton4 = CTkButton(self.pestaña_primer_paso, text="CineColor Films", command=self.subir_archivo_tipo4, fg_color=c_verde, corner_radius=12, border_width = 2, height=50, width=180)
+        self.boton4.grid(row=1, column=1, padx=5, pady=5)
+
+        self.boton5 = CTkButton(self.pestaña_primer_paso, text="Sonus Consolidado", command=self.subir_archivo_tipo5, fg_color=c_verde, corner_radius=12, border_width = 2, height=50, width=180)
+        self.boton5.grid(row=2, column=0, padx=5, pady=5)
+
+        self.boton6 = CTkButton(self.pestaña_primer_paso, text="Servicios Integra Individual", command=self.subir_archivo_tipo6, fg_color=c_verde, corner_radius=12, border_width = 2, height=50, width=180)
+        self.boton6.grid(row=2, column=1, padx=5, pady=5)
+
+        self.boton7 = CTkButton(self.pestaña_primer_paso, text="Serviart Individual", command=self.subir_archivo_tipo7, fg_color=c_verde, corner_radius=12, border_width = 2, height=50, width=180)
+        self.boton7.grid(row=3, column=0, padx=5, pady=5)
+
+        self.boton8 = CTkButton(self.pestaña_primer_paso, text="CHF Inversiones Consolidado", command=self.subir_archivo_tipo8, fg_color=c_verde, corner_radius=12, border_width = 2, height=50, width=180)
+        self.boton8.grid(row=3, column=1, padx=5, pady=5)
+
+        
 
     def configurar_pestaña_segundo_paso(self):
         # En esta pestaña irán los consolidados "Pequeños"
