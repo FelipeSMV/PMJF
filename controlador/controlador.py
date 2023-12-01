@@ -2,6 +2,8 @@ from modelo import Modelo
 from vista import Vista
 import tkinter.messagebox as messagebox
 import pandas as pd
+import shutil
+import os
 
 class Controlador:
     def __init__(self, vista):
@@ -52,3 +54,9 @@ class Controlador:
         self.modelo.cargar_archivo(ruta_archivo)
         total_chilefilms = self.modelo.buscar_total_tipo4()
         self.modelo.insertar_en_standard_tipo8(total_chilefilms)
+
+    def subir_ajuste(self, ruta_archivo):
+        self.modelo.subir_ajuste(ruta_archivo)
+    
+    def eliminar_archivos_ajustes(self):
+        self.modelo.eliminar_archivos_ajustes()

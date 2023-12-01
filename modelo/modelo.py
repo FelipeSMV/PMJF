@@ -13,14 +13,12 @@ class Modelo:
         self.filas_a_pegar = [6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 37, 38, 39, 40, 41, 42, 43, 45, 48, 49, 50, 51, 52, 53, 54, 58, 59, 60, 61, 62, 63, 65]
         self.vista = vista
         
-
     def cargar_archivo(self, ruta_archivo):
         try:
             
             self.archivo_subido = pd.ExcelFile(ruta_archivo)
         except Exception as e:
             print(f"Error al cargar el archivo: {e}")
-
 
     def buscar_total_tipo1(self):
         if self.archivo_subido is not None:
@@ -31,7 +29,6 @@ class Modelo:
                 print("No se encontró la hoja 'Estado' en el archivo subido.")
         else:
             print("No se ha cargado ningún archivo.")
-
 
     def buscar_total_tipo2(self):
         if self.archivo_subido is not None:
@@ -317,7 +314,6 @@ class Modelo:
             mensaje_error = f"Error al insertar en el archivo estándar para CHF Internacional: {e}"
             self.vista.mostrar_error(mensaje_error)
 
-
     def insertar_en_standard_tipo8(self, total_chilefilms):
         
         try:
@@ -354,3 +350,33 @@ class Modelo:
         except Exception as e:
             mensaje_error = f"Error al insertar en el archivo estándar para CHF Internacional: {e}"
             self.vista.mostrar_error(mensaje_error)
+
+    def subir_ajuste(self, ruta_archivo):
+        try:
+            # Verifica que la carpeta de ajustes exista, si no, la crea
+            carpeta_ajustes = "recursos/ajustes"
+            os.makedirs(carpeta_ajustes, exist_ok=True)
+
+            # Extrae el nombre del archivo
+            nombre_archivo = os.path.basename(ruta_archivo)
+
+            # Crea la ruta de destino en la carpeta de ajustes
+            ruta_destino = os.path.join(carpeta_ajustes, nombre_archivo)
+
+            # Copia el archivo a la carpeta de ajustes
+            shutil.copy(ruta_archivo, ruta_destino)
+
+            # Muestra un mensaje indicando que el ajuste se subió correctamente
+            self.vista.mostrar_mensaje(f"Ajuste '{nombre_archivo}' subido correctamente.")
+        except Exception as e:
+            mensaje_error = f"Error al subir ajuste: {e}"
+            self.vista.mostrar_error(mensaje_error)
+    
+    def eliminar_archivos_ajustes(self):
+        try:
+            carpeta_ajustes = "recursos/ajustes"
+            for archivo in os.listdir(carpeta_ajustes):
+                ruta_archivo = os.path.join(carpeta_ajustes, archivo)
+                os.remove(ruta_archivo)
+        except Exception as e:
+            print(f"Error al eliminar archivos de ajustes: {e}")
