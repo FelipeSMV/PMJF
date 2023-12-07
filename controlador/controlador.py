@@ -60,3 +60,12 @@ class Controlador:
     
     def eliminar_archivos_ajustes(self):
         self.modelo.eliminar_archivos_ajustes()
+    
+    def insertar_valor_en_celda(self, fila, columna, valor):
+        self.modelo.insertar_valor_en_celda(fila, columna, valor)
+
+    def mostrar_proceso_finalizado(self, tipo):
+        self.vista.mostrar_proceso_finalizado(tipo)
+
+    def mostrar_error(self, mensaje):
+        self.vista.mostrar_error(mensaje)

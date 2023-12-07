@@ -40,12 +40,8 @@ class Vista:
         imagen_label = ttk.Label(self.pestaña_primer_paso, image=imagen)
         imagen_label.image = imagen
         imagen_label.pack(pady=10)
-
-        # Este es el frame para poder modificar los botones
         frame_primer_paso = tk.Frame(self.pestaña_primer_paso)
         frame_primer_paso.pack(pady=10)
-
-        # Crear y organizar los botones en columnas y filas
         self.crear_botones(frame_primer_paso)
 
 
@@ -89,21 +85,54 @@ class Vista:
     def configurar_pestaña_segundo_paso(self):
         frame_segundo_paso = tk.Frame(self.pestaña_segundo_paso)
         frame_segundo_paso.pack(pady=10)
-        boton_ajuste_segundo_paso = CTkButton(frame_segundo_paso, text="Subir Ajuste", command=self.subir_ajuste_segundo_paso,
-                                            fg_color="#008F39", corner_radius=12, border_width=2, height=50, width=180)
-        boton_ajuste_segundo_paso.grid(row=0, column=0, padx=10, pady=10)
-        
-        def eliminar_ajustes():
-            try:
-                self.controlador.eliminar_archivos_ajustes()
-                self.mostrar_mensaje("Archivos de ajustes eliminados correctamente.")
-            except Exception as e:
-                mensaje_error = f"Error al eliminar archivos de ajustes: {e}"
-                self.mostrar_error(mensaje_error)
 
-        boton_eliminar_ajustes = CTkButton(frame_segundo_paso, text="Eliminar Ajustes", command=eliminar_ajustes,
-                                           fg_color="red", corner_radius=12, border_width=2, height=50, width=180)
-        boton_eliminar_ajustes.grid(row=0, column=1, padx=10, pady=10)
+        self.lbl_fila = ttk.Label(self.pestaña_segundo_paso, text="Seleccionar estado de situación financiera:", font=("Helvetica", 20))
+        self.lbl_fila.pack(pady=5)
+
+
+        nombres_filas = {6: "Efectivo y Equivalentes al Efectivo", 7: "Otros activos financieros corrientes", 8: "Otros Activos No Financieros, Corriente", 9: "Deudores comerciales y otras cuentas por cobrar corrientes", 10: "Cuentas por Cobrar a Entidades Relacionadas, Corriente", 11: "Inventarios", 12: "Activos biológicos corrientes", 13: "Activos por impuestos corrientes", 15: "Activos no corrientes o grupos de activos para su disposición clasificados como mantenidos para la venta", 16: "Activos no corrientes o grupos de activos para su disposición clasificados como mantenidos para distribuir a los propietarios", 20: "Otros activos financieros no corrientes", 21: "Otros activos no financieros no corrientes", 22: "Derechos por cobrar no corrientes", 23: "Cuentas por Cobrar a Entidades Relacionadas, No Corriente", 24: "Inversiones contabilizadas utilizando el método de la participación", 25: "Activos intangibles distintos de la plusvalía", 26: "Plusvalía", 27: "Propiedades, Planta y Equipo", 28: "Activos biológicos, no corrientes", 29: "Propiedad de inversión", 30: "Activos por impuestos diferidos", 37: "Otros pasivos financieros corrientes", 38: "Cuentas por pagar comerciales y otras cuentas por pagar", 39: "Cuentas por Pagar a Entidades Relacionadas, Corriente", 40: "Otras provisiones a corto plazo", 41: "Pasivos por Impuestos corrientes", 42: "Provisiones corrientes por beneficios a los empleados", 43: "Otros pasivos no financieros corrientes", 45: "Total de pasivos corrientes distintos de los pasivos incluidos en grupos de activos para su disposición clasificados como mantenidos para la venta", 48: "Pasivos incluidos en grupos de activos para su disposición clasificados como mantenidos para la venta", 49: "Otros pasivos financieros no corrientes", 50: "Pasivos no corrientes", 51: "Cuentas por Pagar a Entidades Relacionadas, no corriente", 52: "Otras provisiones a largo plazo", 53: "Pasivo por impuestos diferidos", 54: "Provisiones no corrientes por beneficios a los empleados", 58: "Otros pasivos no financieros no corrientes"}
+        self.lista_fila = ttk.Combobox(self.pestaña_segundo_paso, values=list(nombres_filas.values()), height=20, width=75)
+        self.lista_fila.set(list(nombres_filas.values())[0])
+        self.lista_fila.pack(pady=5)
+
+        self.lbl_columna = ttk.Label(self.pestaña_segundo_paso, text="Seleccionar Empresa:", font=("Helvetica", 20))
+        self.lbl_columna.pack(pady=5)
+
+
+        nombres_columnas = {12: "Chilefilms", 13: "Cce", 14: "Conate II", 15: "CineColor Films", 16: "Sonus", 17: "Servicios Integra", 18: "Serviart", 19: "CHF Inversiones"}
+        self.lista_columna = ttk.Combobox(self.pestaña_segundo_paso, values=list(nombres_columnas.values()), height=10, width=50)
+        self.lista_columna.set(list(nombres_columnas.values())[0])
+        self.lista_columna.pack(pady=5)
+
+        self.lbl_valor = ttk.Label(self.pestaña_segundo_paso, text="Ingrese el valor:")
+        self.lbl_valor.pack(pady=5)
+
+        self.entry_valor = ttk.Entry(self.pestaña_segundo_paso)
+        self.entry_valor.pack(pady=5)
+
+        self.btn_insertar = ttk.Button(self.pestaña_segundo_paso, text="Insertar", command=self.insertar_valor)
+        self.btn_insertar.pack(pady=10)
+
+    def insertar_valor(self):
+        nombres_filas = {6: "Efectivo y Equivalentes al Efectivo", 7: "Otros activos financieros corrientes", 8: "Otros Activos No Financieros, Corriente", 9: "Deudores comerciales y otras cuentas por cobrar corrientes", 10: "Cuentas por Cobrar a Entidades Relacionadas, Corriente", 11: "Inventarios", 12: "Activos biológicos corrientes", 13: "Activos por impuestos corrientes", 15: "Activos no corrientes o grupos de activos para su disposición clasificados como mantenidos para la venta", 16: "Activos no corrientes o grupos de activos para su disposición clasificados como mantenidos para distribuir a los propietarios", 20: "Otros activos financieros no corrientes", 21: "Otros activos no financieros no corrientes", 22: "Derechos por cobrar no corrientes", 23: "Cuentas por Cobrar a Entidades Relacionadas, No Corriente", 24: "Inversiones contabilizadas utilizando el método de la participación", 25: "Activos intangibles distintos de la plusvalía", 26: "Plusvalía", 27: "Propiedades, Planta y Equipo", 28: "Activos biológicos, no corrientes", 29: "Propiedad de inversión", 30: "Activos por impuestos diferidos", 37: "Otros pasivos financieros corrientes", 38: "Cuentas por pagar comerciales y otras cuentas por pagar", 39: "Cuentas por Pagar a Entidades Relacionadas, Corriente", 40: "Otras provisiones a corto plazo", 41: "Pasivos por Impuestos corrientes", 42: "Provisiones corrientes por beneficios a los empleados", 43: "Otros pasivos no financieros corrientes", 45: "Total de pasivos corrientes distintos de los pasivos incluidos en grupos de activos para su disposición clasificados como mantenidos para la venta", 48: "Pasivos incluidos en grupos de activos para su disposición clasificados como mantenidos para la venta", 49: "Otros pasivos financieros no corrientes", 50: "Pasivos no corrientes", 51: "Cuentas por Pagar a Entidades Relacionadas, no corriente", 52: "Otras provisiones a largo plazo", 53: "Pasivo por impuestos diferidos", 54: "Provisiones no corrientes por beneficios a los empleados", 58: "Otros pasivos no financieros no corrientes"}
+        nombres_columnas = {12: "Chilefilms", 13: "Cce", 14: "Conate II", 15: "CineColor Films", 16: "Sonus", 17: "Servicios Integra", 18: "Serviart", 19: "CHF Inversiones"}
+
+        fila_seleccionada = [k for k, v in nombres_filas.items() if v == self.lista_fila.get()][0]
+        columna_seleccionada = [k for k, v in nombres_columnas.items() if v == self.lista_columna.get()][0]
+        valor_ingresado = self.entry_valor.get()
+
+        try:
+            exito = self.controlador.insertar_valor_en_celda(fila_seleccionada, columna_seleccionada, valor_ingresado)
+            if exito:
+                mensaje_exito = f"Valor '{valor_ingresado}' insertado correctamente en " \
+                                f"{self.lista_fila.get()}, {self.lista_columna.get()}."
+                messagebox.showinfo("Éxito", mensaje_exito)
+            else:
+                messagebox.showerror("Error", "No se pudo realizar la inserción. Verifica tu archivo y las coordenadas.")
+        except Exception as e:
+            mensaje_error = f"Error al insertar el valor: {e}"
+            messagebox.showerror("Error", mensaje_error)
+
 
     def cargar_imagen(self, ruta, width, height):
         imagen_pil = Image.open(ruta)
@@ -154,12 +183,6 @@ class Vista:
 
     def subir_archivo_tipo8(self):
         self.subir_archivo(tipo="tipo8")
-
-    def subir_ajuste_segundo_paso(self):
-        ruta_archivo = filedialog.askopenfilename(filetypes=[("Archivos Excel", "*.xls;*.xlsx")])
-        if ruta_archivo:
-            # Llama al método correspondiente del controlador
-            self.controlador.subir_ajuste(ruta_archivo)
    
 
     def establecer_controlador(self, controlador):

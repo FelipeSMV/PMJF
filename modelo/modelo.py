@@ -2,6 +2,7 @@ import pandas as pd
 import shutil
 import os
 from openpyxl import load_workbook
+import tkinter as tk
 
 class Modelo:
     def __init__(self, vista):
@@ -12,6 +13,10 @@ class Modelo:
         self.columnas_a_insertar_tipo2 = [4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 35, 36, 37, 38, 39, 40, 41, 43, 46, 47, 48, 49, 50, 51, 52, 56, 57, 58, 59, 60, 61, 63 ]
         self.filas_a_pegar = [6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 37, 38, 39, 40, 41, 42, 43, 45, 48, 49, 50, 51, 52, 53, 54, 58, 59, 60, 61, 62, 63, 65]
         self.vista = vista
+        self.nombres_filas = {1: "Efectivo y Equivalentes al Efectivo", 2: "Otra Fila", 3: "Otra Fila Más"}
+        self.nombres_columnas = {1: "Chilefilms", 20: "Otra Columna", 30: "Otra Columna Más"}
+
+
         
     def cargar_archivo(self, ruta_archivo):
         try:
@@ -372,11 +377,30 @@ class Modelo:
             mensaje_error = f"Error al subir ajuste: {e}"
             self.vista.mostrar_error(mensaje_error)
     
-    def eliminar_archivos_ajustes(self):
+    def insertar_valor_en_celda(self, fila, columna, valor):
         try:
-            carpeta_ajustes = "recursos/ajustes"
-            for archivo in os.listdir(carpeta_ajustes):
-                ruta_archivo = os.path.join(carpeta_ajustes, archivo)
-                os.remove(ruta_archivo)
+            archivo_standard = load_workbook(self.archivo_standard)
+
+            if "Estado" in archivo_standard.sheetnames:
+                hoja_estado = archivo_standard["Estado"]
+
+                # Obtener el estilo de la celda para conservar el formato
+                estilo_celda = hoja_estado.cell(row=fila, column=columna)._style
+
+                # Modificar solo la celda específica
+                hoja_estado.cell(row=fila, column=columna, value=valor)._style = estilo_celda
+
+                archivo_standard.save(self.archivo_standard)
+                nombre_fila = self.nombres_filas.get(fila, f"Fila {fila}")
+                nombre_columna = self.nombres_columnas.get(columna, f"Columna {columna}")
+                print(f"Valor '{valor}' insertado en {nombre_fila}, {nombre_columna} correctamente.")
+                return True
+            else:
+                print("No se encontró la hoja 'Estado' en el archivo estándar.")
+                return False
+
         except Exception as e:
-            print(f"Error al eliminar archivos de ajustes: {e}")
+            mensaje_error = f"Error al insertar en el archivo estándar: {e}"
+            print(mensaje_error)
+            return False
+ 
