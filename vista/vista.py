@@ -3,7 +3,7 @@ from tkinter import ttk, filedialog
 from tkinter import*
 from PIL import Image, ImageTk      
 import tkinter.messagebox as messagebox
-from customtkinter import CTk, CTkButton, CTkFrame
+from customtkinter import*
 
 class Vista:
     def __init__(self):
@@ -83,38 +83,43 @@ class Vista:
         self.boton8.grid(row=3, column=1, padx=5, pady=5)
 
     def configurar_pestaña_segundo_paso(self):
-        frame_segundo_paso = tk.Frame(self.pestaña_segundo_paso)
-        frame_segundo_paso.pack(pady=10)
+        
+        frame_segundo_paso = CTkFrame(self.pestaña_segundo_paso, width=320, height=360, fg_color="#F2F2F2")
+        frame_segundo_paso.place(relx=0.5, rely=0.5, anchor=CENTER)
 
-        self.lbl_fila = ttk.Label(self.pestaña_segundo_paso, text="Seleccionar estado de situación financiera:", font=("Helvetica", 20))
+        self.lbl_fila = CTkLabel(master=frame_segundo_paso, text="Seleccionar estado de situación financiera:", font=("Helvetica", 24), text_color="#000000")
         self.lbl_fila.pack(pady=5)
 
-
+        c_lista = "#F2EFFB"
         nombres_filas = {6: "Efectivo y Equivalentes al Efectivo", 7: "Otros activos financieros corrientes", 8: "Otros Activos No Financieros, Corriente", 9: "Deudores comerciales y otras cuentas por cobrar corrientes", 10: "Cuentas por Cobrar a Entidades Relacionadas, Corriente", 11: "Inventarios", 12: "Activos biológicos corrientes", 13: "Activos por impuestos corrientes", 15: "Activos no corrientes o grupos de activos para su disposición clasificados como mantenidos para la venta", 16: "Activos no corrientes o grupos de activos para su disposición clasificados como mantenidos para distribuir a los propietarios", 20: "Otros activos financieros no corrientes", 21: "Otros activos no financieros no corrientes", 22: "Derechos por cobrar no corrientes", 23: "Cuentas por Cobrar a Entidades Relacionadas, No Corriente", 24: "Inversiones contabilizadas utilizando el método de la participación", 25: "Activos intangibles distintos de la plusvalía", 26: "Plusvalía", 27: "Propiedades, Planta y Equipo", 28: "Activos biológicos, no corrientes", 29: "Propiedad de inversión", 30: "Activos por impuestos diferidos", 37: "Otros pasivos financieros corrientes", 38: "Cuentas por pagar comerciales y otras cuentas por pagar", 39: "Cuentas por Pagar a Entidades Relacionadas, Corriente", 40: "Otras provisiones a corto plazo", 41: "Pasivos por Impuestos corrientes", 42: "Provisiones corrientes por beneficios a los empleados", 43: "Otros pasivos no financieros corrientes", 45: "Total de pasivos corrientes distintos de los pasivos incluidos en grupos de activos para su disposición clasificados como mantenidos para la venta", 48: "Pasivos incluidos en grupos de activos para su disposición clasificados como mantenidos para la venta", 49: "Otros pasivos financieros no corrientes", 50: "Pasivos no corrientes", 51: "Cuentas por Pagar a Entidades Relacionadas, no corriente", 52: "Otras provisiones a largo plazo", 53: "Pasivo por impuestos diferidos", 54: "Provisiones no corrientes por beneficios a los empleados", 58: "Otros pasivos no financieros no corrientes"}
-        self.lista_fila = ttk.Combobox(self.pestaña_segundo_paso, values=list(nombres_filas.values()), height=20, width=75)
+        self.lista_fila = CTkComboBox(master=frame_segundo_paso, values=list(nombres_filas.values()), height=30, width=400, fg_color=c_lista)
         self.lista_fila.set(list(nombres_filas.values())[0])
-        self.lista_fila.pack(pady=5)
+        self.lista_fila.pack(pady=10)
 
-        self.lbl_columna = ttk.Label(self.pestaña_segundo_paso, text="Seleccionar Empresa:", font=("Helvetica", 20))
+
+        self.lbl_columna = CTkLabel(master=frame_segundo_paso, text="Seleccionar Empresa:", font=("Helvetica", 24), text_color="#000000")
         self.lbl_columna.pack(pady=5)
 
 
         nombres_columnas = {12: "Chilefilms", 13: "Cce", 14: "Conate II", 15: "CineColor Films", 16: "Sonus", 17: "Servicios Integra", 18: "Serviart", 19: "CHF Inversiones"}
-        self.lista_columna = ttk.Combobox(self.pestaña_segundo_paso, values=list(nombres_columnas.values()), height=10, width=50)
+        self.lista_columna = CTkComboBox(master=frame_segundo_paso, values=list(nombres_columnas.values()), height=30, width=400, fg_color=c_lista)
         self.lista_columna.set(list(nombres_columnas.values())[0])
-        self.lista_columna.pack(pady=5)
+        self.lista_columna.pack(pady=10)
 
-        self.lbl_valor = ttk.Label(self.pestaña_segundo_paso, text="Ingrese el valor:")
+        self.lbl_valor = CTkLabel(master=frame_segundo_paso, text="Ingrese el valor:", font=("Helvetica", 20), text_color="#000000")
         self.lbl_valor.pack(pady=5)
 
-        self.entry_valor = ttk.Entry(self.pestaña_segundo_paso)
+        self.entry_valor = CTkEntry(master=frame_segundo_paso, placeholder_text="Valor:", width=150)
         self.entry_valor.pack(pady=5)
 
-        self.btn_insertar = ttk.Button(self.pestaña_segundo_paso, text="Insertar", command=self.insertar_valor)
+        c_verde = "#008F39"
+        self.btn_insertar = CTkButton(master=frame_segundo_paso, text="Insertar", command=self.insertar_valor, fg_color=c_verde, corner_radius=12, border_width=2, height=30, width=150)
         self.btn_insertar.pack(pady=10)
 
+        #listas
     def insertar_valor(self):
         nombres_filas = {6: "Efectivo y Equivalentes al Efectivo", 7: "Otros activos financieros corrientes", 8: "Otros Activos No Financieros, Corriente", 9: "Deudores comerciales y otras cuentas por cobrar corrientes", 10: "Cuentas por Cobrar a Entidades Relacionadas, Corriente", 11: "Inventarios", 12: "Activos biológicos corrientes", 13: "Activos por impuestos corrientes", 15: "Activos no corrientes o grupos de activos para su disposición clasificados como mantenidos para la venta", 16: "Activos no corrientes o grupos de activos para su disposición clasificados como mantenidos para distribuir a los propietarios", 20: "Otros activos financieros no corrientes", 21: "Otros activos no financieros no corrientes", 22: "Derechos por cobrar no corrientes", 23: "Cuentas por Cobrar a Entidades Relacionadas, No Corriente", 24: "Inversiones contabilizadas utilizando el método de la participación", 25: "Activos intangibles distintos de la plusvalía", 26: "Plusvalía", 27: "Propiedades, Planta y Equipo", 28: "Activos biológicos, no corrientes", 29: "Propiedad de inversión", 30: "Activos por impuestos diferidos", 37: "Otros pasivos financieros corrientes", 38: "Cuentas por pagar comerciales y otras cuentas por pagar", 39: "Cuentas por Pagar a Entidades Relacionadas, Corriente", 40: "Otras provisiones a corto plazo", 41: "Pasivos por Impuestos corrientes", 42: "Provisiones corrientes por beneficios a los empleados", 43: "Otros pasivos no financieros corrientes", 45: "Total de pasivos corrientes distintos de los pasivos incluidos en grupos de activos para su disposición clasificados como mantenidos para la venta", 48: "Pasivos incluidos en grupos de activos para su disposición clasificados como mantenidos para la venta", 49: "Otros pasivos financieros no corrientes", 50: "Pasivos no corrientes", 51: "Cuentas por Pagar a Entidades Relacionadas, no corriente", 52: "Otras provisiones a largo plazo", 53: "Pasivo por impuestos diferidos", 54: "Provisiones no corrientes por beneficios a los empleados", 58: "Otros pasivos no financieros no corrientes"}
+        
         nombres_columnas = {12: "Chilefilms", 13: "Cce", 14: "Conate II", 15: "CineColor Films", 16: "Sonus", 17: "Servicios Integra", 18: "Serviart", 19: "CHF Inversiones"}
 
         fila_seleccionada = [k for k, v in nombres_filas.items() if v == self.lista_fila.get()][0]
