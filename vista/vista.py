@@ -44,12 +44,8 @@ class Vista:
         frame_primer_paso.pack(pady=10)
         self.crear_botones(frame_primer_paso)
 
-
     def crear_botones(self, contenedor):
-        # Configurar el ancho y alto de los botones
         c_verde = "#008F39"
-
-        # Poder crear y organizar los botones en el contenedor
         self.boton1 = CTkButton(contenedor, text="Chilefilms Matriz", command=self.subir_archivo_tipo1, fg_color=c_verde,
                                 corner_radius=12, border_width=2, height=50, width=180)
         self.boton1.grid(row=0, column=0, padx=10, pady=10)
@@ -116,7 +112,6 @@ class Vista:
         self.btn_insertar = CTkButton(master=frame_segundo_paso, text="Insertar", command=self.insertar_valor, fg_color=c_verde, corner_radius=12, border_width=2, height=30, width=150)
         self.btn_insertar.pack(pady=10)
 
-        #listas
     def insertar_valor(self):
         nombres_filas = {6: "Efectivo y Equivalentes al Efectivo", 7: "Otros activos financieros corrientes", 8: "Otros Activos No Financieros, Corriente", 9: "Deudores comerciales y otras cuentas por cobrar corrientes", 10: "Cuentas por Cobrar a Entidades Relacionadas, Corriente", 11: "Inventarios", 12: "Activos biológicos corrientes", 13: "Activos por impuestos corrientes", 15: "Activos no corrientes o grupos de activos para su disposición clasificados como mantenidos para la venta", 16: "Activos no corrientes o grupos de activos para su disposición clasificados como mantenidos para distribuir a los propietarios", 20: "Otros activos financieros no corrientes", 21: "Otros activos no financieros no corrientes", 22: "Derechos por cobrar no corrientes", 23: "Cuentas por Cobrar a Entidades Relacionadas, No Corriente", 24: "Inversiones contabilizadas utilizando el método de la participación", 25: "Activos intangibles distintos de la plusvalía", 26: "Plusvalía", 27: "Propiedades, Planta y Equipo", 28: "Activos biológicos, no corrientes", 29: "Propiedad de inversión", 30: "Activos por impuestos diferidos", 37: "Otros pasivos financieros corrientes", 38: "Cuentas por pagar comerciales y otras cuentas por pagar", 39: "Cuentas por Pagar a Entidades Relacionadas, Corriente", 40: "Otras provisiones a corto plazo", 41: "Pasivos por Impuestos corrientes", 42: "Provisiones corrientes por beneficios a los empleados", 43: "Otros pasivos no financieros corrientes", 45: "Total de pasivos corrientes distintos de los pasivos incluidos en grupos de activos para su disposición clasificados como mantenidos para la venta", 48: "Pasivos incluidos en grupos de activos para su disposición clasificados como mantenidos para la venta", 49: "Otros pasivos financieros no corrientes", 50: "Pasivos no corrientes", 51: "Cuentas por Pagar a Entidades Relacionadas, no corriente", 52: "Otras provisiones a largo plazo", 53: "Pasivo por impuestos diferidos", 54: "Provisiones no corrientes por beneficios a los empleados", 58: "Otros pasivos no financieros no corrientes"}
         
@@ -129,15 +124,14 @@ class Vista:
         try:
             exito = self.controlador.insertar_valor_en_celda(fila_seleccionada, columna_seleccionada, valor_ingresado)
             if exito:
-                mensaje_exito = f"Valor '{valor_ingresado}' insertado correctamente en " \
-                                f"{self.lista_fila.get()}, {self.lista_columna.get()}."
-                messagebox.showinfo("Éxito", mensaje_exito)
+                mensaje_info = {"titulo": "Éxito", "contenido": f"Valor '{valor_ingresado}' insertado correctamente en {self.lista_fila.get()}, {self.lista_columna.get()}."}
+                self.mostrar_mensaje(mensaje_info)
             else:
-                messagebox.showerror("Error", "No se pudo realizar la inserción. Verifica tu archivo y las coordenadas.")
+                mensaje_info = {"titulo": "Error", "contenido": "No se pudo realizar la inserción. Verifica tu archivo y las coordenadas."}
+                self.mostrar_mensaje(mensaje_info)
         except Exception as e:
-            mensaje_error = f"Error al insertar el valor: {e}"
-            messagebox.showerror("Error", mensaje_error)
-
+            mensaje_info = {"titulo": "Error", "contenido": f"Error al insertar el valor: {e}"}
+            self.mostrar_mensaje(mensaje_info)
 
     def cargar_imagen(self, ruta, width, height):
         imagen_pil = Image.open(ruta)
@@ -193,11 +187,16 @@ class Vista:
     def establecer_controlador(self, controlador):
         self.controlador = controlador
 
-    def mostrar_mensaje(self, mensaje):
-        messagebox.showinfo("Información", mensaje)
+    def mostrar_mensaje(self, mensaje_info):
+        messagebox.showinfo(mensaje_info['titulo'], mensaje_info['contenido'])
+
     
     def mostrar_proceso_finalizado(self, tipo):
-        messagebox.showinfo("Información", f"Proceso finalizado correctamente.")
+        messagebox.showinfo("Información", f"Los datos de Estado se transfirieron correctamente.")
+    
+    
+    def mostrar_proceso_finalizado2(self, tipo):
+        messagebox.showinfo("Información", f"Los datos de Resultado se transfirieron correctamente.")
     
     def mostrar_error(self, mensaje):
         messagebox.showerror("Error", mensaje)
