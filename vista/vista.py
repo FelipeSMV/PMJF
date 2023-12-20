@@ -27,6 +27,11 @@ class Vista:
         self.notebook.add(self.pestaña_segundo_paso, text="Ajustes financieros")
         self.configurar_pestaña_segundo_paso()
 
+        # Pestaña Tercer Paso
+        self.pestaña_tercer_paso = ttk.Frame(self.notebook)
+        self.notebook.add(self.pestaña_tercer_paso, text="Ajustes financieros")
+        self.configurar_pestaña_tercer_paso()
+
         self.ventana.call("wm", "iconphoto", self.ventana._w, logo)
 
     def iniciar(self):
@@ -87,8 +92,8 @@ class Vista:
         self.lbl_fila.pack(pady=5)
 
         c_lista = "#F2EFFB"
-        nombres_filas = {6: "Efectivo y Equivalentes al Efectivo", 7: "Otros activos financieros corrientes", 8: "Otros Activos No Financieros, Corriente", 9: "Deudores comerciales y otras cuentas por cobrar corrientes", 10: "Cuentas por Cobrar a Entidades Relacionadas, Corriente", 11: "Inventarios", 12: "Activos biológicos corrientes", 13: "Activos por impuestos corrientes", 15: "Activos no corrientes o grupos de activos para su disposición clasificados como mantenidos para la venta", 16: "Activos no corrientes o grupos de activos para su disposición clasificados como mantenidos para distribuir a los propietarios", 20: "Otros activos financieros no corrientes", 21: "Otros activos no financieros no corrientes", 22: "Derechos por cobrar no corrientes", 23: "Cuentas por Cobrar a Entidades Relacionadas, No Corriente", 24: "Inversiones contabilizadas utilizando el método de la participación", 25: "Activos intangibles distintos de la plusvalía", 26: "Plusvalía", 27: "Propiedades, Planta y Equipo", 28: "Activos biológicos, no corrientes", 29: "Propiedad de inversión", 30: "Activos por impuestos diferidos", 37: "Otros pasivos financieros corrientes", 38: "Cuentas por pagar comerciales y otras cuentas por pagar", 39: "Cuentas por Pagar a Entidades Relacionadas, Corriente", 40: "Otras provisiones a corto plazo", 41: "Pasivos por Impuestos corrientes", 42: "Provisiones corrientes por beneficios a los empleados", 43: "Otros pasivos no financieros corrientes", 45: "Total de pasivos corrientes distintos de los pasivos incluidos en grupos de activos para su disposición clasificados como mantenidos para la venta", 48: "Pasivos incluidos en grupos de activos para su disposición clasificados como mantenidos para la venta", 49: "Otros pasivos financieros no corrientes", 50: "Pasivos no corrientes", 51: "Cuentas por Pagar a Entidades Relacionadas, no corriente", 52: "Otras provisiones a largo plazo", 53: "Pasivo por impuestos diferidos", 54: "Provisiones no corrientes por beneficios a los empleados", 58: "Otros pasivos no financieros no corrientes"}
-        self.lista_fila = CTkComboBox(master=frame_segundo_paso, values=list(nombres_filas.values()), height=30, width=400, fg_color=c_lista)
+        nombres_filas = {6: "Efectivo y Equivalentes al Efectivo", 7: "Otros activos financieros corrientes", 8: "Otros Activos No Financieros, Corriente", 9: "Deudores comerciales y otras cuentas por cobrar corrientes", 10: "Cuentas por Cobrar a Entidades Relacionadas, Corriente", 11: "Inventarios", 12: "Activos biológicos corrientes", 13: "Activos por impuestos corrientes", 15: "Activos no corrientes clasificados como mantenidos para la venta.", 16: "Activos no corrientes clasificados como mantenidos para distribuir a los propietarios.", 20: "Otros activos financieros no corrientes", 21: "Otros activos no financieros no corrientes", 22: "Derechos por cobrar no corrientes", 23: "Cuentas por Cobrar a Entidades Relacionadas, No Corriente", 24: "Inversiones contabilizadas utilizando el método de la participación", 25: "Activos intangibles distintos de la plusvalía", 26: "Plusvalía", 27: "Propiedades, Planta y Equipo", 28: "Activos biológicos, no corrientes", 29: "Propiedad de inversión", 30: "Activos por impuestos diferidos", 37: "Otros pasivos financieros corrientes", 38: "Cuentas por pagar comerciales y otras cuentas por pagar", 39: "Cuentas por Pagar a Entidades Relacionadas, Corriente", 40: "Otras provisiones a corto plazo", 41: "Pasivos por Impuestos corrientes", 42: "Provisiones corrientes por beneficios a los empleados", 43: "Otros pasivos no financieros corrientes", 45: "Pasivos incluidos en grupos de activos clasificados como mantenidos para la venta", 48: "Otros pasivos financieros no corrientes", 49: "Pasivos no corrientes", 50: "Cuentas por Pagar a Entidades Relacionadas, no corriente", 51: "Otras provisiones a largo plazo", 52: "Pasivo por impuestos diferidos", 53: "Provisiones no corrientes por beneficios a los empleados", 54: "Otros pasivos no financieros no corrientes"}
+        self.lista_fila = ttk.Combobox(master=frame_segundo_paso, values=list(nombres_filas.values()), height=10, width=75)
         self.lista_fila.set(list(nombres_filas.values())[0])
         self.lista_fila.pack(pady=10)
 
@@ -98,9 +103,10 @@ class Vista:
 
 
         nombres_columnas = {12: "Chilefilms", 13: "Cce", 14: "Conate II", 15: "CineColor Films", 16: "Sonus", 17: "Servicios Integra", 18: "Serviart", 19: "CHF Inversiones"}
-        self.lista_columna = CTkComboBox(master=frame_segundo_paso, values=list(nombres_columnas.values()), height=30, width=400, fg_color=c_lista)
+        self.lista_columna = ttk.Combobox(master=frame_segundo_paso, values=list(nombres_columnas.values()), height=10, width=40)
         self.lista_columna.set(list(nombres_columnas.values())[0])
         self.lista_columna.pack(pady=10)
+        
 
         self.lbl_valor = CTkLabel(master=frame_segundo_paso, text="Ingrese el valor:", font=("Helvetica", 20), text_color="#000000")
         self.lbl_valor.pack(pady=5)
@@ -113,7 +119,7 @@ class Vista:
         self.btn_insertar.pack(pady=10)
 
     def insertar_valor(self):
-        nombres_filas = {6: "Efectivo y Equivalentes al Efectivo", 7: "Otros activos financieros corrientes", 8: "Otros Activos No Financieros, Corriente", 9: "Deudores comerciales y otras cuentas por cobrar corrientes", 10: "Cuentas por Cobrar a Entidades Relacionadas, Corriente", 11: "Inventarios", 12: "Activos biológicos corrientes", 13: "Activos por impuestos corrientes", 15: "Activos no corrientes o grupos de activos para su disposición clasificados como mantenidos para la venta", 16: "Activos no corrientes o grupos de activos para su disposición clasificados como mantenidos para distribuir a los propietarios", 20: "Otros activos financieros no corrientes", 21: "Otros activos no financieros no corrientes", 22: "Derechos por cobrar no corrientes", 23: "Cuentas por Cobrar a Entidades Relacionadas, No Corriente", 24: "Inversiones contabilizadas utilizando el método de la participación", 25: "Activos intangibles distintos de la plusvalía", 26: "Plusvalía", 27: "Propiedades, Planta y Equipo", 28: "Activos biológicos, no corrientes", 29: "Propiedad de inversión", 30: "Activos por impuestos diferidos", 37: "Otros pasivos financieros corrientes", 38: "Cuentas por pagar comerciales y otras cuentas por pagar", 39: "Cuentas por Pagar a Entidades Relacionadas, Corriente", 40: "Otras provisiones a corto plazo", 41: "Pasivos por Impuestos corrientes", 42: "Provisiones corrientes por beneficios a los empleados", 43: "Otros pasivos no financieros corrientes", 45: "Total de pasivos corrientes distintos de los pasivos incluidos en grupos de activos para su disposición clasificados como mantenidos para la venta", 48: "Pasivos incluidos en grupos de activos para su disposición clasificados como mantenidos para la venta", 49: "Otros pasivos financieros no corrientes", 50: "Pasivos no corrientes", 51: "Cuentas por Pagar a Entidades Relacionadas, no corriente", 52: "Otras provisiones a largo plazo", 53: "Pasivo por impuestos diferidos", 54: "Provisiones no corrientes por beneficios a los empleados", 58: "Otros pasivos no financieros no corrientes"}
+        nombres_filas = {6: "Efectivo y Equivalentes al Efectivo", 7: "Otros activos financieros corrientes", 8: "Otros Activos No Financieros, Corriente", 9: "Deudores comerciales y otras cuentas por cobrar corrientes", 10: "Cuentas por Cobrar a Entidades Relacionadas, Corriente", 11: "Inventarios", 12: "Activos biológicos corrientes", 13: "Activos por impuestos corrientes", 15: "Activos no corrientes o grupos de activos para su disposición clasificados como mantenidos para la venta", 16: "Activos no corrientes o grupos de activos para su disposición clasificados como mantenidos para distribuir a los propietarios", 20: "Otros activos financieros no corrientes", 21: "Otros activos no financieros no corrientes", 22: "Derechos por cobrar no corrientes", 23: "Cuentas por Cobrar a Entidades Relacionadas, No Corriente", 24: "Inversiones contabilizadas utilizando el método de la participación", 25: "Activos intangibles distintos de la plusvalía", 26: "Plusvalía", 27: "Propiedades, Planta y Equipo", 28: "Activos biológicos, no corrientes", 29: "Propiedad de inversión", 30: "Activos por impuestos diferidos", 37: "Otros pasivos financieros corrientes", 38: "Cuentas por pagar comerciales y otras cuentas por pagar", 39: "Cuentas por Pagar a Entidades Relacionadas, Corriente", 40: "Otras provisiones a corto plazo", 41: "Pasivos por Impuestos corrientes", 42: "Provisiones corrientes por beneficios a los empleados", 43: "Otros pasivos no financieros corrientes", 45: "Pasivos incluidos en grupos de activos para su disposición clasificados como mantenidos para la venta", 48: "Otros pasivos financieros no corrientes", 49: "Pasivos no corrientes", 50: "Cuentas por Pagar a Entidades Relacionadas, no corriente", 51: "Otras provisiones a largo plazo", 52: "Pasivo por impuestos diferidos", 53: "Provisiones no corrientes por beneficios a los empleados", 54: "Otros pasivos no financieros no corrientes"}
         
         nombres_columnas = {12: "Chilefilms", 13: "Cce", 14: "Conate II", 15: "CineColor Films", 16: "Sonus", 17: "Servicios Integra", 18: "Serviart", 19: "CHF Inversiones"}
 
@@ -132,6 +138,22 @@ class Vista:
         except Exception as e:
             mensaje_info = {"titulo": "Error", "contenido": f"Error al insertar el valor: {e}"}
             self.mostrar_mensaje(mensaje_info)
+
+    def configurar_pestaña_tercer_paso(self):
+        frame_tercer_paso = CTkFrame(self.pestaña_tercer_paso, width=320, height=360, fg_color="#F2F2F2")
+        frame_tercer_paso.place(relx=0.5, rely=0.5, anchor=CENTER)
+
+        self.btn_limpiar_planilla = CTkButton(master=frame_tercer_paso, text="Limpiar planilla", command=self.limpiar_planilla, fg_color="#FF0000", corner_radius=12, border_width=2, height=30, width=150)
+        self.btn_limpiar_planilla.pack(pady=10)
+
+        self.btn_descargar_manual = CTkButton(master=frame_tercer_paso, text="Descargar manual de uso", command=self.descargar_manual, fg_color="#0000FF", corner_radius=12, border_width=2, height=30, width=200)
+        self.btn_descargar_manual.pack(pady=10)
+
+    def limpiar_planilla(self):
+        self.controlador.limpiar_planilla()
+
+    def descargar_manual(self):
+        self.controlador.descargar_manual()
 
     def cargar_imagen(self, ruta, width, height):
         imagen_pil = Image.open(ruta)

@@ -73,3 +73,10 @@ class Controlador:
     def insertar_valor_en_celda(self, fila, columna, valor):
         exito = self.modelo.insertar_valor_en_celda(fila, columna, valor)
         return exito
+    
+
+    def limpiar_planilla(self):
+        self.modelo.limpiar_planilla()
+
+    def descargar_manual(self):
+        self.modelo.descargar_manual()
