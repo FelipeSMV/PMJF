@@ -43,6 +43,7 @@ class Vista:
         self.ventana.mainloop()
 
     def configurar_pestaña_primer_paso(self,):
+        
         titulo = ttk.Label(self.pestaña_primer_paso, text="Bienvenido al NexoFinanciero", font=("Helvetica", 20))
         titulo.pack(pady=10)
         ruta_imagen = 'recursos/contabilidad.png'
@@ -92,6 +93,13 @@ class Vista:
         
         frame_segundo_paso = CTkFrame(self.pestaña_segundo_paso, width=320, height=360, fg_color="#F2F2F2")
         frame_segundo_paso.place(relx=0.5, rely=0.5, anchor=CENTER)
+        
+        ruta_img2 = 'recursos/excel.png'
+        imagen2 = self.cargar_imagen(ruta_img2, 200, 200)
+        imagen_label = ttk.Label(self.pestaña_segundo_paso, image=imagen2)
+        imagen_label.image = imagen2
+        imagen_label.pack(pady=30)
+       
 
         self.lbl_fila = CTkLabel(master=frame_segundo_paso, text="Seleccionar estado de situación financiera:", font=("Helvetica", 24), text_color="#000000")
         self.lbl_fila.pack(pady=5)
@@ -201,14 +209,30 @@ class Vista:
             mensaje_info = {"titulo": "Error", "contenido": f"Error al insertar el valor: {e}"}
             self.mostrar_mensaje(mensaje_info)
 
+
+
     def configurar_pestaña_tercer_paso(self):
+         
         frame_tercer_paso = CTkFrame(self.pestaña_tercer_paso, width=320, height=360, fg_color="#F2F2F2")
         frame_tercer_paso.place(relx=0.5, rely=0.5, anchor=CENTER)
-
-        self.btn_limpiar_planilla = CTkButton(master=frame_tercer_paso, text="Limpiar planilla", command=self.limpiar_planilla, fg_color="#FF0000", corner_radius=12, border_width=2, height=30, width=150)
+        
+        ruta_extra = 'recursos/extra.png'
+        imagen3 = self.cargar_imagen(ruta_extra, 200, 150)
+        imagen_label = ttk.Label(self.pestaña_tercer_paso, image=imagen3)
+        imagen_label.image = imagen3
+        imagen_label.pack(pady=30)
+        
+        
+        
+        self.titulo3 = CTkLabel(master=frame_tercer_paso, text="Seleccione un Extra a utilizar:", font=("Helvetica", 35), text_color="#000000")
+        self.titulo3.pack(pady=10)
+       
+        
+        self.btn_limpiar_planilla = CTkButton(master=frame_tercer_paso, text="Limpiar planilla", command=self.limpiar_planilla, fg_color="#FF0000", corner_radius=12, border_width=2, height=50, width=180)
         self.btn_limpiar_planilla.pack(pady=10)
+       
 
-        self.btn_descargar_manual = CTkButton(master=frame_tercer_paso, text="Descargar manual de uso", command=self.descargar_manual, fg_color="#0000FF", corner_radius=12, border_width=2, height=30, width=200)
+        self.btn_descargar_manual = CTkButton(master=frame_tercer_paso, text="Descargar manual de uso", command=self.descargar_manual, fg_color="#0000FF", corner_radius=12, border_width=2, height=50, width=180)
         self.btn_descargar_manual.pack(pady=10)
 
     def limpiar_planilla(self):
