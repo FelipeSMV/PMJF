@@ -94,11 +94,11 @@ class Vista:
         frame_segundo_paso = CTkFrame(self.pestaña_segundo_paso, width=320, height=360, fg_color="#F2F2F2")
         frame_segundo_paso.place(relx=0.5, rely=0.5, anchor=CENTER)
         
-        ruta_img2 = 'recursos/excel.png'
-        imagen2 = self.cargar_imagen(ruta_img2, 200, 200)
-        imagen_label = ttk.Label(self.pestaña_segundo_paso, image=imagen2)
-        imagen_label.image = imagen2
-        imagen_label.pack(pady=30)
+        #ruta_img2 = 'recursos/excel.png'
+        #imagen2 = self.cargar_imagen(ruta_img2, 200, 200)
+        #imagen_label = ttk.Label(self.pestaña_segundo_paso, image=imagen2)
+        #imagen_label.image = imagen2
+        #imagen_label.pack(pady=30)
        
 
         self.lbl_fila = CTkLabel(master=frame_segundo_paso, text="Seleccionar estado de situación financiera:", font=("Helvetica", 24), text_color="#000000")
