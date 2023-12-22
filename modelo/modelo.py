@@ -727,37 +727,67 @@ class Modelo:
 
             if "Estado" in archivo_standard.sheetnames:
                 hoja_estado = archivo_standard["Estado"]
-                self.limpiar_celdas(hoja_estado)
+                filas_a_limpiar_estado = [6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 37, 38, 39, 40, 41, 42, 43, 45, 48, 49, 50, 51, 52, 53, 54]
+                self.limpiar_celdas(hoja_estado, filas_a_limpiar_estado)
 
             if "Resultado" in archivo_standard.sheetnames:
                 hoja_resultado = archivo_standard["Resultado"]
-                self.limpiar_celdas(hoja_resultado)
+                filas_a_limpiar_resultado = [5, 7, 11, 12, 15, 17, 19, 21, 23, 25, 27, 31]
+                self.limpiar_celdas(hoja_resultado, filas_a_limpiar_resultado)
 
             archivo_standard.save(self.archivo_standard)
-            print("Planilla limpiada correctamente.")
             return True
         except Exception as e:
             mensaje_error = f"Error al limpiar la planilla: {e}"
             print(mensaje_error)
-            return False
+            raise RuntimeError(mensaje_error)
 
-    def limpiar_celdas(self, hoja):
-        columnas_a_limpiar = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 30, 31, 32, 33, 34, 35, 36, 38, 41, 42, 43, 44, 45, 46, 47, 51, 52, 53, 54, 55, 56, 58]
-        filas_a_limpiar = [5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 36, 37, 38, 39, 40, 41, 42, 44, 47, 48, 49, 50, 51, 52, 53, 57, 58, 59, 60, 61, 62, 64]
+    def limpiar_celdas(self, hoja, filas_a_limpiar=None):
+        columnas_a_limpiar = [3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15, 16, 17, 18, 19]
+        
+        if filas_a_limpiar is None:
+            filas_a_limpiar = []
 
         for columna in columnas_a_limpiar:
             for fila in filas_a_limpiar:
-                hoja.cell(row=fila, column=columna, value=None)
+                hoja.cell(row=fila, column=columna).value = None
 
     def descargar_manual(self):
         try:
-            escritorio = os.path.join(os.path.expanduser("~"), "Desktop")
-            ruta_manual_origen = os.path.join("recursos", "manual.pdf")
-            ruta_manual_destino = os.path.join(escritorio, "manual.pdf")
-            shutil.copy(ruta_manual_origen, ruta_manual_destino)
-            print(f"Manual descargado en el escritorio como 'manual.pdf'")
-            return True
+            shutil.copy("recursos/manual.pdf", os.path.join(os.path.expanduser("~"), "Desktop", "manual.pdf"))
         except Exception as e:
             mensaje_error = f"Error al descargar el manual: {e}"
+            print(mensaje_error)
+            raise RuntimeError(mensaje_error)
+        
+    def insertar_valor_en_celda_R(self, fila, columna, valor):
+        try:
+            archivo_standard = load_workbook(self.archivo_standard)
+
+            if "Resultado" in archivo_standard.sheetnames:
+                hoja_estado = archivo_standard["Resultado"]
+
+                estilo_celda = hoja_estado.cell(row=fila, column=columna)._style
+                hoja_estado.cell(row=fila, column=columna, value=valor)._style = estilo_celda
+
+                archivo_standard.save(self.archivo_standard)
+
+                
+                escritorio = os.path.join(os.path.expanduser("~"), "Desktop")
+                nombre_copia = "planilla_standard_modificada.xlsx"
+                ruta_copia = os.path.join(escritorio, nombre_copia)
+                shutil.copy(self.archivo_standard, ruta_copia)
+                print(f"Copia guardada en el escritorio como {nombre_copia}")
+
+                nombre_fila = self.nombres_filas.get(fila, f"Fila {fila}")
+                nombre_columna = self.nombres_columnas.get(columna, f"Columna {columna}")
+                print(f"Valor '{valor}' insertado en {nombre_fila}, {nombre_columna} correctamente.")
+                return True
+            else:
+                print("No se encontró la hoja 'Estado' en el archivo estándar.")
+                return False
+
+        except Exception as e:
+            mensaje_error = f"Error al insertar en el archivo estándar: {e}"
             print(mensaje_error)
             return False

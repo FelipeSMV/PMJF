@@ -74,9 +74,27 @@ class Controlador:
         exito = self.modelo.insertar_valor_en_celda(fila, columna, valor)
         return exito
     
-
+    def insertar_valor_en_celda_R(self, fila, columna, valor):
+        exito = self.modelo.insertar_valor_en_celda_R(fila, columna, valor)
+        return exito
+    
     def limpiar_planilla(self):
-        self.modelo.limpiar_planilla()
+        try:
+            exito = self.modelo.limpiar_planilla()
+            if exito:
+                self.vista.mostrar_mensaje("Planilla limpiada correctamente.")
+            else:
+                self.vista.mostrar_error("Error al limpiar la planilla.")
+        except Exception as e:
+            mensaje_error = f"Error al limpiar la planilla: {e}"
+            print(mensaje_error)
+            self.vista.mostrar_error(mensaje_error)
 
     def descargar_manual(self):
-        self.modelo.descargar_manual()
+        try:
+            self.modelo.descargar_manual()
+            self.vista.mostrar_mensaje("Manual descargado correctamente.")
+        except Exception as e:
+            mensaje_error = f"Error al descargar el manual: {e}"
+            print(mensaje_error)
+            self.vista.mostrar_error(mensaje_error)

@@ -24,12 +24,17 @@ class Vista:
 
         # Pestaña Segundo Paso
         self.pestaña_segundo_paso = ttk.Frame(self.notebook)
-        self.notebook.add(self.pestaña_segundo_paso, text="Ajustes financieros")
+        self.notebook.add(self.pestaña_segundo_paso, text="Ajustes financieros hoja Estado")
         self.configurar_pestaña_segundo_paso()
+
+        # Pestaña Cuarto Paso
+        self.pestaña_cuarto_paso = ttk.Frame(self.notebook)
+        self.notebook.add(self.pestaña_cuarto_paso, text="Ajustes financieros hoja Resultado")
+        self.configurar_pestaña_cuarto_paso()
 
         # Pestaña Tercer Paso
         self.pestaña_tercer_paso = ttk.Frame(self.notebook)
-        self.notebook.add(self.pestaña_tercer_paso, text="Ajustes financieros")
+        self.notebook.add(self.pestaña_tercer_paso, text="Extras")
         self.configurar_pestaña_tercer_paso()
 
         self.ventana.call("wm", "iconphoto", self.ventana._w, logo)
@@ -139,6 +144,63 @@ class Vista:
             mensaje_info = {"titulo": "Error", "contenido": f"Error al insertar el valor: {e}"}
             self.mostrar_mensaje(mensaje_info)
 
+
+    def configurar_pestaña_cuarto_paso(self):
+        
+        frame_cuarto_paso = CTkFrame(self.pestaña_cuarto_paso, width=320, height=360, fg_color="#F2F2F2")
+        frame_cuarto_paso.place(relx=0.5, rely=0.5, anchor=CENTER)
+
+        self.lbl_fila = CTkLabel(master=frame_cuarto_paso, text="Seleccionar estado de situación financiera:", font=("Helvetica", 24), text_color="#000000")
+        self.lbl_fila.pack(pady=5)
+
+        c_lista = "#F2EFFB"
+        nombres_filas = {5: "Ingresos de actividaes ordinarias", 7: "Costos de ventas", 11: "Gastos de administracion", 12: "Depreciación y/o Amortización del Ejercicio", 15: "Ingresos financieros", 17:"Costos financieros", 19: "Participacion en las ganancias (perdidas) de asociadas y negocios conjunto", 21:"Otros ingresos", 23:"Otros egresos", 25:"Diferencias de cambio", 27:"Resultado por unidades de reajuste", 31:"Gasto por impuestos a las ganancias"}
+        self.lista_fila = ttk.Combobox(master=frame_cuarto_paso, values=list(nombres_filas.values()), height=10, width=75)
+        self.lista_fila.set(list(nombres_filas.values())[0])
+        self.lista_fila.pack(pady=10)
+
+
+        self.lbl_columna = CTkLabel(master=frame_cuarto_paso, text="Seleccionar Empresa:", font=("Helvetica", 24), text_color="#000000")
+        self.lbl_columna.pack(pady=5)
+
+
+        nombres_columnas = {12: "Chilefilms", 13: "Cce", 14: "Conate II", 15: "CineColor Films", 16: "Sonus", 17: "Servicios Integra", 18: "Serviart", 19: "CHF Inversiones"}
+        self.lista_columna = ttk.Combobox(master=frame_cuarto_paso, values=list(nombres_columnas.values()), height=10, width=40)
+        self.lista_columna.set(list(nombres_columnas.values())[0])
+        self.lista_columna.pack(pady=10)
+        
+
+        self.lbl_valor = CTkLabel(master=frame_cuarto_paso, text="Ingrese el valor:", font=("Helvetica", 20), text_color="#000000")
+        self.lbl_valor.pack(pady=5)
+
+        self.entry_valor = CTkEntry(master=frame_cuarto_paso, placeholder_text="Valor:", width=150)
+        self.entry_valor.pack(pady=5)
+
+        c_verde = "#008F39"
+        self.btn_insertar = CTkButton(master=frame_cuarto_paso, text="Insertar", command=self.insertar_valorR, fg_color=c_verde, corner_radius=12, border_width=2, height=30, width=150)
+        self.btn_insertar.pack(pady=10)
+
+    def insertar_valorR(self):
+        nombres_filas = {5: "Ingresos de actividaes ordinarias", 7: "Costos de ventas", 11: "Gastos de administracion", 12: "Depreciación y/o Amortización del Ejercicio", 15: "Ingresos financieros", 17:"Costos financieros", 19: "Participacion en las ganancias (perdidas) de asociadas y negocios conjunto", 21:"Otros ingresos", 23:"Otros egresos", 25:"Diferencias de cambio", 27:"Resultado por unidades de reajuste", 31:"Gasto por impuestos a las ganancias"}
+        
+        nombres_columnas = {12: "Chilefilms", 13: "Cce", 14: "Conate II", 15: "CineColor Films", 16: "Sonus", 17: "Servicios Integra", 18: "Serviart", 19: "CHF Inversiones"}
+
+        fila_seleccionada = [k for k, v in nombres_filas.items() if v == self.lista_fila.get()][0]
+        columna_seleccionada = [k for k, v in nombres_columnas.items() if v == self.lista_columna.get()][0]
+        valor_ingresado = self.entry_valor.get()
+
+        try:
+            exito = self.controlador.insertar_valor_en_celda_R(fila_seleccionada, columna_seleccionada, valor_ingresado)
+            if exito:
+                mensaje_info = {"titulo": "Éxito", "contenido": f"Valor '{valor_ingresado}' insertado correctamente en {self.lista_fila.get()}, {self.lista_columna.get()}."}
+                self.mostrar_mensaje(mensaje_info)
+            else:
+                mensaje_info = {"titulo": "Error", "contenido": "No se pudo realizar la inserción. Verifica tu archivo y las coordenadas."}
+                self.mostrar_mensaje(mensaje_info)
+        except Exception as e:
+            mensaje_info = {"titulo": "Error", "contenido": f"Error al insertar el valor: {e}"}
+            self.mostrar_mensaje(mensaje_info)
+
     def configurar_pestaña_tercer_paso(self):
         frame_tercer_paso = CTkFrame(self.pestaña_tercer_paso, width=320, height=360, fg_color="#F2F2F2")
         frame_tercer_paso.place(relx=0.5, rely=0.5, anchor=CENTER)
@@ -209,8 +271,8 @@ class Vista:
     def establecer_controlador(self, controlador):
         self.controlador = controlador
 
-    def mostrar_mensaje(self, mensaje_info):
-        messagebox.showinfo(mensaje_info['titulo'], mensaje_info['contenido'])
+    def mostrar_mensaje(self, mensaje):
+        messagebox.showinfo("Éxito", mensaje)
 
     
     def mostrar_proceso_finalizado(self, tipo):
